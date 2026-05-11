@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+/* ─── SOVEREIGN ELITE TIER DESIGN SYSTEM ─────────────────── */
+
+:root {
+  --space-black: #0A0A0A;
+  --accent-neutral: #333333;
+  --terminal-green: #00FF41;
+  --terminal-red: #FF3131;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: rgba(0, 0, 0, 0.5);
+  
+  --font-header: 'Orbitron', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  cursor: default; /* Reset custom cursor if needed or keep it, let's keep it to default for better usability or keep existing cursor logic */
+}
+
+body {
+  background-color: var(--space-black);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ─── Obsidian Background ────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: 
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+}
+
+/* ─── Bento-Box Panels ─────────────────────────────────── */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02), 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: 8px; /* Slightly more rounded for Bento */
+  transition: all 0.2s ease-in-out;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── Typography Utils ─────────────────────────────────── */
+.font-header { font-family: var(--font-header); }
+.font-mono { font-family: var(--font-mono); }
+.font-body { font-family: var(--font-body); }
+
+.text-gold { color: var(--gold-primary); }
+.text-green { color: var(--terminal-green); }
+.text-red { color: var(--terminal-red); }
+
+/* ─── Technical Effects ─────────────────────────────────── */
+.scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.3;
+}
+
+.crt-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.98; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.99; }
+  15% { opacity: 0.97; }
+  20% { opacity: 0.98; }
+  25% { opacity: 0.99; }
+  30% { opacity: 0.96; }
+  100% { opacity: 1; }
+}
+
+/* ─── Custom Scrollbar (Invisible on Idle) ──────────────── */
+::-webkit-scrollbar {
+  width: 1px;
+  height: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-primary);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+}
+
+/* ─── Custom Cursor Trailer ────────────────────────────── */
+#custom-cursor {
+  width: 8px;
+  height: 8px;
+  background-color: var(--gold-primary);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transition: transform 0.1s ease-out;
+  mix-blend-mode: difference;
+}
+
+#cursor-follower {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--gold-primary);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease-out;
+  opacity: 0.5;
+}
+
+/* ─── Shimmer Animation ────────────────────────────────── */
+.shimmer-text {
+  background: linear-gradient(
+    to right,
+    var(--gold-primary) 20%,
+    var(--gold-bright) 40%,
+    var(--gold-bright) 60%,
+    var(--gold-primary) 80%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+/* ─── Haptic Vibration ─────────────────────────────────── */
+.haptic-vibration {
+  animation: haptic 0.1s linear 3;
+}
+
+@keyframes haptic {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(1px, 1px); }
+  50% { transform: translate(-1px, -1px); }
+  75% { transform: translate(1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ─── Order Book Depth Visuals ──────────────────────────── */
+/* ─── Sovereign Digital Noise ──────────────────────────── */
+.noise-bg {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.glitch-matrix {
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-matrix::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--space-black);
+  clip: rect(0, 900px, 0, 0);
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(10px, 9999px, 50px, 0); }
+  5% { clip: rect(30px, 9999px, 10px, 0); }
+  10% { clip: rect(60px, 9999px, 80px, 0); }
+  15% { clip: rect(20px, 9999px, 40px, 0); }
+  20% { clip: rect(90px, 9999px, 30px, 0); }
+  /* ... simplified ... */
+  100% { clip: rect(10px, 9999px, 50px, 0); }
+}
+
