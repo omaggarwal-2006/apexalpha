@@ -8,20 +8,21 @@ import { AuthProvider } from "@/contexts/AuthContext";
 export const metadata = {
   title: "APEX ALPHA | Sovereign Elite Tier",
   description: "Institutional Grade Agentic Trading Terminal",
+  other: {
+    "google-adsense-account": "ca-pub-3740887631837879",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true} className="h-[100dvh] antialiased selection:bg-[#f0c040]/30 selection:text-white">
-      <head>
-        <meta name="google-adsense-account" content="ca-pub-3740887631837879" />
-        <script
+      <body suppressHydrationWarning={true} className="min-h-full flex flex-col bg-[#020205] text-white selection:bg-[#f0c040]/30 overflow-hidden">
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3740887631837879"
           crossOrigin="anonymous"
-        ></script>
-      </head>
-      <body suppressHydrationWarning={true} className="min-h-full flex flex-col bg-[#020205] text-white selection:bg-[#f0c040]/30 overflow-hidden">
+          strategy="afterInteractive"
+        />
         <AuthProvider>
           <ClientSetup />
           <CursorTrailer />

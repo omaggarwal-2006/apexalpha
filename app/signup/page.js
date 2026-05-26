@@ -41,7 +41,6 @@ export default function SignupPage() {
 
   const handleGoogleSignIn = async () => {
     setProcessing(true);
-    await new Promise(r => setTimeout(r, 600));
     setLoading(true);
     try {
       await googleSignIn();
