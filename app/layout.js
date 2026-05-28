@@ -1,5 +1,4 @@
 import "./main.css";
-import Script from 'next/script';
 import { Toaster } from 'react-hot-toast';
 import CursorTrailer from "@/components/CursorTrailer";
 import ClientSetup from "@/components/ClientSetup";
@@ -16,13 +15,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true} className="h-[100dvh] antialiased selection:bg-[#f0c040]/30 selection:text-white">
-      <body suppressHydrationWarning={true} className="min-h-full flex flex-col bg-[#020205] text-white selection:bg-[#f0c040]/30 overflow-hidden">
-        <Script
+      <head>
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3740887631837879"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
+      </head>
+      <body suppressHydrationWarning={true} className="min-h-full flex flex-col bg-[#020205] text-white selection:bg-[#f0c040]/30 overflow-hidden">
         <AuthProvider>
           <ClientSetup />
           <CursorTrailer />
