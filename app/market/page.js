@@ -40,13 +40,13 @@ export default function MarketWatchPage() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex-1 min-h-[600px] glass-panel border-white/10 overflow-hidden shadow-2xl relative"
+          className="flex-1 h-[600px] max-h-[75vh] glass-panel border-white/10 overflow-hidden shadow-2xl relative flex flex-col"
         >
           {/* Gold circuit decorative line */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent z-40 pointer-events-none" />
           <div className="absolute inset-0 pointer-events-none opacity-[0.02] scanlines z-0" />
           
-          <div className="relative z-10 w-full h-full min-h-[600px]">
+          <div className="relative z-10 w-full h-full flex flex-col">
             <Watchlist 
               onAssetSelect={handleAssetSelect} 
               onAction={(type, symbol) => handleAssetSelect(symbol)} 

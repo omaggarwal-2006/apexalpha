@@ -17,7 +17,7 @@ export default function TopBarTicker() {
   useEffect(() => {
     const fetchData = async () => {
       const promises = SYMBOLS.map(s => 
-        axios.get(`/api/market/snapshot?symbol=${encodeURIComponent(s.id)}`)
+        axios.get(`/api/market/price?symbol=${encodeURIComponent(s.id)}`)
           .then(res => ({ id: s.id, ...res.data }))
           .catch(() => null)
       );

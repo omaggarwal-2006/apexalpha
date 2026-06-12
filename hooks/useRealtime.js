@@ -20,6 +20,9 @@ export const useRealtimeCollection = (collectionPath, queryConstraints = [], dep
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!collectionPath || collectionPath.includes("undefined")) {
+      return;
+    }
     setLoading(true);
     const q = query(collection(db, collectionPath), ...queryConstraints);
     
@@ -48,7 +51,7 @@ export const useRealtimeDocument = (collectionPath, documentId, dependencies = [
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!documentId) return;
+    if (!documentId || !collectionPath || collectionPath.includes("undefined")) return;
     
     setLoading(true);
     const docRef = doc(db, collectionPath, documentId);

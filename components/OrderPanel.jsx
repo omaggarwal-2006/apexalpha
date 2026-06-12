@@ -11,23 +11,23 @@ import { playMechanicalClick } from "@/utils/sound";
 import AgentModal from "./AgentModal";
 
 const ASSETS = [
-  { symbol: "Nifty 50",   name: "Nifty 50",   category: "Indices" },
-  { symbol: "Bank Nifty", name: "Bank Nifty", category: "Indices" },
-  { symbol: "S&P 500",    name: "S&P 500",    category: "Indices" },
-  { symbol: "NASDAQ 100", name: "NASDAQ 100", category: "Indices" },
+  { symbol: "^NSEI",      name: "Nifty 50",   category: "Indices" },
+  { symbol: "^NSEBANK",   name: "Bank Nifty", category: "Indices" },
+  { symbol: "^GSPC",      name: "S&P 500",    category: "Indices" },
+  { symbol: "^IXIC",      name: "NASDAQ 100", category: "Indices" },
   { symbol: "BTC-USD",    name: "Bitcoin",    category: "Crypto" },
   { symbol: "ETH-USD",    name: "Ethereum",   category: "Crypto" },
   { symbol: "SOL-USD",    name: "Solana",     category: "Crypto" },
-  { symbol: "RELIANCE",   name: "Reliance",   category: "NSE" },
-  { symbol: "TCS",        name: "TCS",        category: "NSE" },
-  { symbol: "HDFC BANK",  name: "HDFC Bank",  category: "NSE" },
-  { symbol: "INFOSYS",    name: "Infosys",    category: "NSE" },
-  { symbol: "NVIDIA",     name: "Nvidia",     category: "US Tech" },
-  { symbol: "TESLA",      name: "Tesla",      category: "US Tech" },
-  { symbol: "APPLE",      name: "Apple",      category: "US Tech" },
-  { symbol: "Gold",       name: "Gold",       category: "Commodities" },
-  { symbol: "Crude Oil",  name: "Crude Oil",  category: "Commodities" },
-  { symbol: "USD/INR",    name: "USD/INR",    category: "Forex" },
+  { symbol: "RELIANCE.NS",name: "Reliance",   category: "NSE" },
+  { symbol: "TCS.NS",     name: "TCS",        category: "NSE" },
+  { symbol: "HDFCBANK.NS",name: "HDFC Bank",  category: "NSE" },
+  { symbol: "INFY.NS",    name: "Infosys",    category: "NSE" },
+  { symbol: "NVDA",       name: "Nvidia",     category: "US Tech" },
+  { symbol: "TSLA",       name: "Tesla",      category: "US Tech" },
+  { symbol: "AAPL",       name: "Apple",      category: "US Tech" },
+  { symbol: "GC=F",       name: "Gold",       category: "Commodities" },
+  { symbol: "CL=F",       name: "Crude Oil",  category: "Commodities" },
+  { symbol: "USDINR=X",   name: "USD/INR",    category: "Forex" },
 ];
 
 const LEVERAGE_OPTIONS = [5, 50, 100, 150, 200];

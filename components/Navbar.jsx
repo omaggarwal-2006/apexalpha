@@ -8,11 +8,17 @@ import { motion } from "framer-motion";
 import { Globe, Activity, Zap, Headphones, User } from "lucide-react";
 import { startAmbientDrone, stopAmbientDrone, playMechanicalClick } from "@/utils/sound";
 import { getMarketSession } from "@/utils/marketStatus";
+import { usePortfolio } from "@/hooks/useFirestore";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const [isDroneActive, setIsDroneActive] = useState(false);
   const [navBalance, setNavBalance] = useState(100000);
+  const { data: portfolio } = usePortfolio();
+
+  const displayBalance = (portfolio?.accountBalance !== undefined && portfolio?.accountBalance !== null)
+    ? portfolio.accountBalance
+    : navBalance;
   const [marketStatus, setMarketStatus] = useState({
     nse: "REGULAR",
     nyse: "CLOSED",
@@ -128,7 +134,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2 bg-[#FFBF00]/10 border border-[#FFBF00]/20 px-3 py-1.5 rounded-sm">
               <span className="text-[7.5px] font-mono text-[#FFBF00] tracking-[0.2em] font-black">CASH</span>
               <span className="text-[10px] font-mono font-black text-white">
-                ${navBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ${displayBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
 

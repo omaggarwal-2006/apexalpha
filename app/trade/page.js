@@ -100,7 +100,7 @@ export default function TradePage() {
   useEffect(() => {
     const fetchPrice = async () => {
       try {
-        const res = await axios.get(`/api/market/snapshot?symbol=${encodeURIComponent(selectedAsset)}`);
+        const res = await axios.get(`/api/market/price?symbol=${encodeURIComponent(selectedAsset)}`);
         setCurrentPrice(res.data.price);
         setMarketAnalytics({
           recommendation: res.data.recommendationMean,

@@ -55,7 +55,7 @@ export default function Watchlist({ onAssetSelect, onAction }) {
     const fetchBatch = async () => {
       try {
         const promises = PINNED.map(s =>
-          axios.get(`http://localhost:3001/api/market/snapshot?symbol=${encodeURIComponent(s)}`)
+          axios.get(`/api/market/price?symbol=${encodeURIComponent(s)}`)
             .then(r => r.data).catch(() => null)
         );
         const results = await Promise.all(promises);

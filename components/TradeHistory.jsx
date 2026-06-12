@@ -208,7 +208,7 @@ export default function TradeHistory({ optimisticTrades = [] }) {
     assets.forEach(async (asset) => {
       if (marketSnapshots[asset]) return;
       try {
-        const sRes = await axios.get(`/api/market/snapshot?symbol=${encodeURIComponent(asset)}`);
+        const sRes = await axios.get(`/api/market/price?symbol=${encodeURIComponent(asset)}`);
         setMarketSnapshots(prev => ({ ...prev, [asset]: sRes.data }));
         setSparklines(prev => ({ ...prev, [asset]: sRes.data.sparklineData }));
       } catch { /* silent */ }

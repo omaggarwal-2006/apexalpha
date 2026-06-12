@@ -85,7 +85,7 @@ export default function PortfolioPage() {
                   <span className="text-[9px] font-mono text-[#f0c040]/60 uppercase tracking-widest">Live Updates Linked</span>
                 </div>
               </div>
-              <div className="p-2">
+              <div className="p-2 h-[500px] max-h-[60vh] flex flex-col">
                 <TradeHistory optimisticTrades={trades} />
               </div>
             </div>
