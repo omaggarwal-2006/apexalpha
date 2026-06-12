@@ -6,30 +6,87 @@ export class MarketDataService {
    * Symbol Mapper to handle NSE, Crypto, and Commodities
    */
   static mapSymbol(symbol: string): string {
+    if (!symbol) return 'BTC-USD';
+    const clean = symbol.toUpperCase().trim();
+
+    // Nifty 50 mappings
+    if (['NIFTY', 'NIFTY50', 'NIFTY 50', 'NIFTY_50', '^NSEI'].includes(clean)) {
+      return '^NSEI';
+    }
+    // Bank Nifty mappings
+    if (['BANKNIFTY', 'BANK NIFTY', 'NIFTY BANK', 'NIFTYBANK', '^NSEBANK'].includes(clean)) {
+      return '^NSEBANK';
+    }
+    // Gold mappings
+    if (['GOLD', 'XAUUSD', 'XAU-USD', 'GC=F'].includes(clean)) {
+      return 'GC=F';
+    }
+    // Crude Oil mappings
+    if (['CRUDE', 'CRUDE OIL', 'WTICOUSD', 'CL=F'].includes(clean)) {
+      return 'CL=F';
+    }
+    // Bitcoin mappings
+    if (['BTC', 'BTC-USD', 'BTC/USD', 'BTCUSD', 'BTCUSDT', 'BTCUSD1', 'BITCOIN'].includes(clean)) {
+      return 'BTC-USD';
+    }
+    // Ethereum mappings
+    if (['ETH', 'ETH-USD', 'ETH/USD', 'ETHUSD', 'ETHUSDT', 'ETHEREUM'].includes(clean)) {
+      return 'ETH-USD';
+    }
+    // Solana mappings
+    if (['SOL', 'SOL-USD', 'SOL/USD', 'SOLUSD', 'SOLUSDT', 'SOLANA'].includes(clean)) {
+      return 'SOL-USD';
+    }
+
     const map: Record<string, string> = {
-      'Nifty 50': '^NSEI',
-      'Bank Nifty': '^NSEBANK',
-      'Gold': 'GC=F',
-      'Crude Oil': 'CL=F',
-      'BTC-USD': 'BTC-USD',
-      'ETH-USD': 'ETH-USD',
       'RELIANCE': 'RELIANCE.NS',
+      'RELIANCE INDUSTRIES': 'RELIANCE.NS',
+      'RELIANCE.NS': 'RELIANCE.NS',
       'TCS': 'TCS.NS',
+      'TCS.NS': 'TCS.NS',
+      'HDFCBANK': 'HDFCBANK.NS',
       'HDFC BANK': 'HDFCBANK.NS',
+      'HDFCBANK.NS': 'HDFCBANK.NS',
+      'INFY': 'INFY.NS',
       'INFOSYS': 'INFY.NS',
+      'INFY.NS': 'INFY.NS',
+      'ICICIBANK': 'ICICIBANK.NS',
       'ICICI BANK': 'ICICIBANK.NS',
+      'ICICIBANK.NS': 'ICICIBANK.NS',
       'APPLE': 'AAPL',
       'TESLA': 'TSLA',
       'NVIDIA': 'NVDA',
       'MICROSOFT': 'MSFT',
       'GOOGLE': 'GOOGL',
       'AMAZON': 'AMZN',
+      'SPY': '^GSPC',
+      'SPX': '^GSPC',
       'S&P 500': '^GSPC',
+      'S&P500': '^GSPC',
+      '^GSPC': '^GSPC',
+      'QQQ': '^IXIC',
+      'NASDAQ': '^IXIC',
       'NASDAQ 100': '^IXIC',
+      '^IXIC': '^IXIC',
+      'DJI': '^DJI',
       'DOW JONES': '^DJI',
-      'USD/INR': 'USDINR=X'
+      '^DJI': '^DJI',
+      'USDINR': 'USDINR=X',
+      'USD/INR': 'USDINR=X',
+      'USDINR=X': 'USDINR=X'
     };
-    return map[symbol] || symbol;
+
+    if (map[clean]) return map[clean];
+
+    if (clean.includes(':')) {
+      const parts = clean.split(':');
+      const last = parts[parts.length - 1];
+      return this.mapSymbol(last);
+    }
+
+    if (clean.endsWith('.NS')) return clean;
+
+    return symbol;
   }
 
   /**

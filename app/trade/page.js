@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { useLiveTrades } from "@/hooks/useLiveTrades";
 import { usePortfolio } from "@/hooks/useFirestore";
 import { useAuth } from "@/contexts/AuthContext";
+import { getCanonicalSymbol } from "@/utils/symbolResolver";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -53,7 +54,7 @@ export default function TradePage() {
       const params = new URLSearchParams(window.location.search);
       const symbol = params.get("symbol");
       if (symbol) {
-        setSelectedAsset(symbol.toUpperCase());
+        setSelectedAsset(getCanonicalSymbol(symbol));
       }
     }
   }, []);
@@ -191,9 +192,7 @@ export default function TradePage() {
   }, [handleFlashTrade]);
 
   const handleAssetChange = (newAsset) => {
-    const parts = newAsset.split(':');
-    const cleanAsset = newAsset.includes(':') ? parts[parts.length - 1] : newAsset;
-    setSelectedAsset(cleanAsset);
+    setSelectedAsset(getCanonicalSymbol(newAsset));
     setHighestSinceOpen(0); // Reset for Trailing SL
   }
 
