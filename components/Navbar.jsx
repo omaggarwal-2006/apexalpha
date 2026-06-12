@@ -28,9 +28,12 @@ export default function Navbar() {
       if (updated) setNavBalance(parseFloat(updated));
     }, 1500);
 
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
+    let unsubscribe = () => {};
+    if (auth) {
+      unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+      });
+    }
 
     // Use our IST-aware market status helper for NSE
     const refreshMarketStatus = () => {
