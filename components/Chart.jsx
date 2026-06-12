@@ -142,7 +142,7 @@ export default function Chart({
   };
 
   return (
-    <div className="bento-card border-[#1a1a1a] flex flex-col relative overflow-hidden" style={{ height: splitMode === '4' ? 620 : 600 }}>
+    <div className="bento-card border-[#1a1a1a] flex flex-col relative overflow-hidden h-full">
       <Script src="https://s3.tradingview.com/tv.js" strategy="lazyOnload" onLoad={() => setScriptLoaded(true)} />
 
       {/* Draggable TP/SL lines — only in single mode */}

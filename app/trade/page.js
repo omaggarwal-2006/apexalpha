@@ -11,7 +11,6 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import TopBarTicker from "@/components/TopBarTicker";
 import ManualFundingModal from "@/components/ManualFundingModal";
 
-import Watchlist from "@/components/Watchlist";
 import GrowwSearch from "@/components/GrowwSearch";
 import PortfolioHeatmap from "@/components/PortfolioHeatmap";
 
@@ -47,6 +46,17 @@ export default function TradePage() {
       setBalance(portfolio.accountBalance);
     }
   }, [portfolio?.accountBalance]);
+
+  // URL Query parameter sync (e.g. for navigating from Market Watch page)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const symbol = params.get("symbol");
+      if (symbol) {
+        setSelectedAsset(symbol.toUpperCase());
+      }
+    }
+  }, []);
   
   const [currentPrice, setCurrentPrice] = useState(0);
   const [marketAnalytics, setMarketAnalytics] = useState(null);
@@ -279,14 +289,6 @@ export default function TradePage() {
           </div>
         </motion.header>
       )}
-
-      {/* ═══ SIDEBAR: Market Watch ════════════════════════════ */}
-      <motion.aside
-        variants={sidebarVariants}
-        className="dashboard-grid__sidebar dashboard-panel overflow-y-auto custom-scrollbar"
-      >
-        <Watchlist onAssetSelect={handleAssetChange} onAction={(type, symbol) => { triggerHaptic(); handleAssetChange(symbol); }} />
-      </motion.aside>
 
       {/* ═══ CENTER: Chart + Tickers ═════════════════════════ */}
       <motion.section

@@ -7,6 +7,7 @@ import { logOut } from "@/lib/firebase-utils";
 import { motion } from "framer-motion";
 import { Globe, Activity, Zap, Headphones, User } from "lucide-react";
 import { startAmbientDrone, stopAmbientDrone, playMechanicalClick } from "@/utils/sound";
+import { getMarketSession } from "@/utils/marketStatus";
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
@@ -31,28 +32,22 @@ export default function Navbar() {
       setUser(currentUser);
     });
 
-    const fetchStatus = async () => {
-      try {
-        const [nseRes, btcRes] = await Promise.all([
-          fetch(`http://localhost:3001/api/market/snapshot?symbol=${encodeURIComponent('^NSEI')}`),
-          fetch(`http://localhost:3001/api/market/snapshot?symbol=${encodeURIComponent('BTC-USD')}`)
-        ]);
-        const nseData = await nseRes.json();
-        const btcData = await btcRes.json();
-        setMarketStatus(prev => ({
-          ...prev,
-          nse: nseData.marketState,
-          crypto: btcData.marketState
-        }));
-      } catch (err) {
-        console.error("Status fetch failed:", err);
-      }
+    // Use our IST-aware market status helper for NSE
+    const refreshMarketStatus = () => {
+      const nseSession = getMarketSession();
+      setMarketStatus(prev => ({
+        ...prev,
+        nse: nseSession.isOpen ? 'REGULAR' : 'CLOSED',
+        nseLabel: nseSession.label,
+        crypto: 'REGULAR' // Crypto is always open
+      }));
     };
-    fetchStatus();
-    const interval = setInterval(fetchStatus, 30000); // Check every 30s
+    refreshMarketStatus();
+    const statusInterval = setInterval(refreshMarketStatus, 30000);
+
     return () => {
       unsubscribe();
-      clearInterval(interval);
+      clearInterval(statusInterval);
       clearInterval(balInterval);
     };
   }, []);
@@ -108,6 +103,7 @@ export default function Navbar() {
       <div className="flex items-center gap-6">
         {user ? (
           <>
+            <Link href="/market" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Market</Link>
             <Link href="/trade" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Trade</Link>
             <Link href="/portfolio" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Vault</Link>
             <Link href="/audit" className="text-[#f0c040] hover:brightness-125 transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Audit</Link>

@@ -418,14 +418,17 @@ export default function OrderPanel({
         {/* Balance Display */}
         <div className="mb-6 p-4 bg-white/[0.02] border border-white/5">
           <div className="flex justify-between items-center">
-            <span className="text-[9px] text-gray-600 uppercase font-header font-black tracking-widest">Available Capital</span>
-            <span className="text-xl text-white font-mono font-black">
-              ${displayBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <span className="text-[9px] text-gray-600 uppercase font-header font-black tracking-widest flex-shrink-0">Available Capital</span>
+            <span className={`font-mono font-black text-white text-right truncate ml-2 ${displayBalance > 999999999 ? 'text-sm' : displayBalance > 999999 ? 'text-base' : 'text-xl'}`}>
+              ${displayBalance >= 1e12 ? (displayBalance / 1e12).toFixed(2) + 'T'
+                : displayBalance >= 1e9 ? (displayBalance / 1e9).toFixed(2) + 'B'
+                : displayBalance >= 1e6 ? (displayBalance / 1e6).toFixed(2) + 'M'
+                : displayBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
           </div>
           <div className="mt-2 h-[1px] w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-          <p className="text-[8px] text-gray-700 uppercase tracking-widest mt-2 font-mono">
-            Leverage up to 200x · Max notional: ${(displayBalance * 200).toLocaleString("en-US", { maximumFractionDigits: 0 })}
+          <p className="text-[8px] text-gray-700 uppercase tracking-widest mt-2 font-mono truncate">
+            Leverage up to 200x · Max notional: ${(displayBalance * 200) >= 1e12 ? ((displayBalance * 200) / 1e12).toFixed(1) + 'T' : (displayBalance * 200).toLocaleString("en-US", { maximumFractionDigits: 0 })}
           </p>
         </div>
 
