@@ -103,7 +103,6 @@ export default function Watchlist({ onAssetSelect, onAction }) {
                       </motion.div>
                     )}
                   </div>
-                  </div>
                   <p className="text-[9px] text-gray-700 font-mono uppercase mt-0.5">{symbol}</p>
                 </div>
                 
