@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const revalidate = 3600; // ISR cache for 1 hour
 
-export async function GET(request: Request) {
+export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get('symbol');
 
