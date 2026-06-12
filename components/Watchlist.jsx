@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { TrendingUp, TrendingDown, LayoutGrid, ShoppingCart, BarChart3, Trash2, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
+import { getMarketSession } from "@/utils/marketStatus";
 
 const PINNED = ["^NSEI", "^NSEBANK", "BTC-USD", "ETH-USD", "RELIANCE.NS", "GC=F", "SOL-USD", "AAPL", "MSFT", "NVDA", "TSLA", "^GSPC", "EURUSD=X"];
 
@@ -23,6 +24,14 @@ const generateSparklinePath = (data) => {
 export default function Watchlist({ onAssetSelect, onAction }) {
   const [data, setData] = useState({});
   const [sparklines, setSparklines] = useState({});
+  const [marketSession, setMarketSession] = useState(() => getMarketSession());
+
+  // Refresh NSE market status every 30 seconds
+  useEffect(() => {
+    const refreshStatus = () => setMarketSession(getMarketSession());
+    const statusInterval = setInterval(refreshStatus, 30000);
+    return () => clearInterval(statusInterval);
+  }, []);
 
   useEffect(() => {
     const fetchSparklines = async () => {
@@ -173,8 +182,29 @@ export default function Watchlist({ onAssetSelect, onAction }) {
 
       <div className="p-3 border-t border-white/5 bg-black/60">
         <div className="flex items-center gap-2 text-[9px] text-gray-600 font-black uppercase tracking-widest">
-          <div className="h-1 w-1 rounded-full bg-[#00FF94] animate-pulse" />
-          NSE · CRYPTO · LIVE
+          {/* NSE Market Status Badge */}
+          <span className={`market-status-badge ${
+            marketSession.session === 'OPEN' ? 'market-status-badge--open' :
+            marketSession.session === 'PRE_MARKET' || marketSession.session === 'POST_MARKET' ? 'market-status-badge--pre' :
+            'market-status-badge--closed'
+          }`}>
+            <span className={`inline-block h-1.5 w-1.5 rounded-full ${
+              marketSession.session === 'OPEN' ? 'bg-[#00FF41] animate-pulse' :
+              marketSession.session === 'PRE_MARKET' ? 'bg-[#f0c040] animate-pulse' :
+              'bg-[#FF3131]'
+            }`} />
+            NSE {marketSession.label}
+            {marketSession.timeUntilNextEvent && (
+              <span className="opacity-60"> · {marketSession.timeUntilNextEvent}m</span>
+            )}
+          </span>
+
+          <span className="text-gray-700">·</span>
+          <span className="flex items-center gap-1">
+            <span className="h-1 w-1 rounded-full bg-[#00FF94] animate-pulse" />
+            CRYPTO LIVE
+          </span>
+
           <div className="ml-auto flex items-center gap-1 text-[#D4AF37]/50">
             <Zap size={8} />
             <span>2x = Heat</span>

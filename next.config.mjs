@@ -4,6 +4,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   async rewrites() {
+    // Next.js Route Handlers (e.g. app/api/market/price/route.js) take
+    // precedence over rewrites. Only unmatched /api/* paths proxy to Express.
     return [
       {
         source: '/api/:path*',

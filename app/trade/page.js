@@ -249,123 +249,123 @@ export default function TradePage() {
       initial="hidden"
       animate="visible"
       variants={terminalVariants}
-      className={`min-h-screen flex text-white overflow-hidden bg-[#020205] selection:bg-[#f0c040]/30 font-body ${isVibrating ? 'haptic-vibration' : ''}`}
+      className={`dashboard-grid ${zenMode ? 'dashboard-grid--zen' : ''} text-white bg-[#020205] selection:bg-[#f0c040]/30 font-body ${isVibrating ? 'haptic-vibration' : ''}`}
     >
-      {/* COLUMN 1: WATCHLIST */}
-      <AnimatePresence>
-        {!zenMode && (
-          <motion.div
-            variants={sidebarVariants}
-            className="hidden xl:flex flex-col w-[320px] border-r border-white/5 bg-[#020205]/80 overflow-y-auto"
-          >
-            <div className="flex-1 min-h-[400px]">
-              <Watchlist onAssetSelect={handleAssetChange} onAction={(type, symbol) => { triggerHaptic(); handleAssetChange(symbol); }} />
-            </div>
-
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* UNIFIED HEADER BAR */}
-        {!zenMode && (
-          <motion.div
-            variants={navVariants}
-            className="px-6 py-4 border-b border-white/5 flex items-center justify-between gap-12 bg-black/60 backdrop-blur-2xl z-50"
-          >
-            <div className="flex-shrink-0">
-              <Navbar />
-            </div>
-
-            <div className="flex-1 max-w-2xl">
-              <GrowwSearch onSelect={handleAssetChange} />
-            </div>
-
-            <div className="flex items-center gap-6 flex-shrink-0">
-              <div className="flex items-center gap-4">
-                <div className="text-[10px] font-mono text-gray-400 uppercase">Balance</div>
-                <div className="text-[14px] font-black text-white">${balance.toLocaleString()}</div>
-              </div>
-              <button 
-                onClick={() => setShowFunding(true)}
-                className="glass-panel px-4 py-2 border-[#f0c040]/30 hover:bg-[#f0c040]/10 text-[#f0c040] flex items-center gap-2 transition-all"
-              >
-                <span className="text-[10px] font-black uppercase tracking-widest">Add Funds</span>
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        <motion.div
-          variants={mainVariants}
-          className="flex-1 overflow-y-auto p-6 custom-scrollbar bg-[#020205]/50 relative"
+      {/* ═══ HEADER ═══════════════════════════════════════════ */}
+      {!zenMode && (
+        <motion.header
+          variants={navVariants}
+          className="dashboard-grid__header px-6 py-4 border-b border-white/5 flex items-center justify-between gap-12 bg-black/60 backdrop-blur-2xl z-50"
         >
-          {/* Scanline overlay for trade floor */}
-          <div className="absolute inset-0 pointer-events-none opacity-[0.03] scanlines" />
-
-          <div className="flex flex-col gap-8 max-w-[1800px] mx-auto w-full relative z-10">
-
-            {/* Contextual Market Pulse (Sovereign Top Ticker) */}
-            {!zenMode && (
-              <div className="flex flex-col border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-[100] shadow-2xl">
-                <TopBarTicker />
-                <MacroTicker />
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start w-full">
-              {/* TOP ROW: CHART & EXECUTION */}
-              <div className="lg:col-span-8 glass-panel border-white/10 overflow-hidden shadow-2xl h-[740px]">
-                <Chart
-                  selectedAsset={selectedAsset}
-                  onAssetSearch={handleAssetChange}
-                  slPrice={slPrice}
-                  tpPrice={tpPrice}
-                  setSlPrice={setSlPrice}
-                  setTpPrice={setTpPrice}
-                  splitMode={splitMode}
-                  onSplitChange={setSplitMode}
-                  setActiveInsight={setActiveInsight}
-                />
-              </div>
-
-              <div className="lg:col-span-4 glass-panel border-white/10 shadow-2xl h-[740px] overflow-y-auto custom-scrollbar">
-                <OrderPanel
-                  balance={balance}
-                  selectedAsset={selectedAsset}
-                  onAssetChange={handleAssetChange}
-                  slPrice={slPrice}
-                  tpPrice={tpPrice}
-                  setSlPrice={setSlPrice}
-                  setTpPrice={setTpPrice}
-                  currentPrice={currentPrice}
-                  isLocked={isLocked}
-                  setActiveInsight={setActiveInsight}
-                  lockTime={lockTime}
-                  isTrailing={isTrailing}
-                  setIsTrailing={setIsTrailing}
-                  onTrade={triggerHaptic}
-                />
-              </div>
-
-              {/* BOTTOM ROW: ACTIVE POSITIONS & POLYMARKET */}
-              <div className="lg:col-span-8 glass-panel border-white/10 h-[450px] shadow-2xl overflow-hidden p-4">
-                <h3 className="text-[12px] font-black uppercase tracking-[0.2em] text-white mb-4 border-b border-white/5 pb-2">Active Positions</h3>
-                <PositionEngine 
-                  trades={optimisticTrades} 
-                  currentPrice={currentPrice} 
-                />
-              </div>
-
-              <div className="lg:col-span-4 h-[450px] shadow-2xl overflow-hidden">
-                <PolymarketPanel />
-              </div>
-            </div>
+          <div className="flex-shrink-0">
+            <Navbar />
           </div>
-        </motion.div>
-      </div>
 
+          <div className="flex-1 max-w-2xl">
+            <GrowwSearch onSelect={handleAssetChange} />
+          </div>
+
+          <div className="flex items-center gap-6 flex-shrink-0">
+            <div className="flex items-center gap-4">
+              <div className="text-[10px] font-mono text-gray-400 uppercase">Balance</div>
+              <div className="text-[14px] font-black text-white">${balance.toLocaleString()}</div>
+            </div>
+            <button 
+              onClick={() => setShowFunding(true)}
+              className="glass-panel px-4 py-2 border-[#f0c040]/30 hover:bg-[#f0c040]/10 text-[#f0c040] flex items-center gap-2 transition-all"
+            >
+              <span className="text-[10px] font-black uppercase tracking-widest">Add Funds</span>
+            </button>
+          </div>
+        </motion.header>
+      )}
+
+      {/* ═══ SIDEBAR: Market Watch ════════════════════════════ */}
+      <motion.aside
+        variants={sidebarVariants}
+        className="dashboard-grid__sidebar dashboard-panel overflow-y-auto custom-scrollbar"
+      >
+        <Watchlist onAssetSelect={handleAssetChange} onAction={(type, symbol) => { triggerHaptic(); handleAssetChange(symbol); }} />
+      </motion.aside>
+
+      {/* ═══ CENTER: Chart + Tickers ═════════════════════════ */}
+      <motion.section
+        variants={mainVariants}
+        className="dashboard-grid__center overflow-hidden relative"
+      >
+        {/* Scanline overlay */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03] scanlines z-0" />
+
+        <div className="flex flex-col h-full relative z-10">
+          {/* Contextual Market Pulse */}
+          {!zenMode && (
+            <div className="flex flex-col border-b border-white/5 bg-black/40 backdrop-blur-xl flex-shrink-0">
+              <TopBarTicker />
+              <MacroTicker />
+            </div>
+          )}
+
+          {/* Trading Chart */}
+          <div className="flex-1 min-h-0">
+            <Chart
+              selectedAsset={selectedAsset}
+              onAssetSearch={handleAssetChange}
+              slPrice={slPrice}
+              tpPrice={tpPrice}
+              setSlPrice={setSlPrice}
+              setTpPrice={setTpPrice}
+              splitMode={splitMode}
+              onSplitChange={setSplitMode}
+              setActiveInsight={setActiveInsight}
+            />
+          </div>
+        </div>
+      </motion.section>
+
+      {/* ═══ BOTTOM: Positions + Polymarket ══════════════════ */}
+      <motion.section
+        variants={mainVariants}
+        className="dashboard-grid__bottom overflow-hidden flex gap-1"
+      >
+        {/* Active Positions */}
+        <div className="flex-[2] dashboard-panel p-4 overflow-y-auto custom-scrollbar">
+          <h3 className="text-[12px] font-black uppercase tracking-[0.2em] text-white mb-4 border-b border-white/5 pb-2">Active Positions</h3>
+          <PositionEngine 
+            trades={optimisticTrades} 
+            currentPrice={currentPrice} 
+          />
+        </div>
+
+        {/* Polymarket Predictions */}
+        <div className="flex-1 overflow-hidden">
+          <PolymarketPanel />
+        </div>
+      </motion.section>
+
+      {/* ═══ TERMINAL: Execution Panel ═══════════════════════ */}
+      <motion.aside
+        variants={mainVariants}
+        className="dashboard-grid__terminal dashboard-panel overflow-y-auto custom-scrollbar"
+      >
+        <OrderPanel
+          balance={balance}
+          selectedAsset={selectedAsset}
+          onAssetChange={handleAssetChange}
+          slPrice={slPrice}
+          tpPrice={tpPrice}
+          setSlPrice={setSlPrice}
+          setTpPrice={setTpPrice}
+          currentPrice={currentPrice}
+          isLocked={isLocked}
+          setActiveInsight={setActiveInsight}
+          lockTime={lockTime}
+          isTrailing={isTrailing}
+          setIsTrailing={setIsTrailing}
+          onTrade={triggerHaptic}
+        />
+      </motion.aside>
+
+      {/* ═══ Overlays ════════════════════════════════════════ */}
       <AnimatePresence>
         {zenMode && (
           <motion.div
@@ -388,3 +388,4 @@ export default function TradePage() {
     </motion.div>
   );
 }
+

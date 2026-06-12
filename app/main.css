@@ -223,3 +223,112 @@ body::before {
   100% { clip: rect(10px, 9999px, 50px, 0); }
 }
 
+/* ─── Trading Dashboard CSS Grid System ────────────────── */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr 380px;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header   header"
+    "sidebar center   terminal"
+    "sidebar bottom   terminal";
+  height: 100vh;
+  gap: 1px;
+  background-color: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.dashboard-grid__header   { grid-area: header; }
+.dashboard-grid__sidebar  { grid-area: sidebar; }
+.dashboard-grid__center   { grid-area: center; }
+.dashboard-grid__bottom   { grid-area: bottom; }
+.dashboard-grid__terminal { grid-area: terminal; }
+
+/* Zen mode: collapse sidebar & terminal */
+.dashboard-grid--zen {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "center"
+    "bottom";
+}
+.dashboard-grid--zen .dashboard-grid__sidebar,
+.dashboard-grid--zen .dashboard-grid__terminal {
+  display: none;
+}
+
+/* ─── Responsive: Tablet (≤1280px) ─────────────────────── */
+@media (max-width: 1280px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr 380px;
+    grid-template-areas:
+      "header   header"
+      "center   terminal"
+      "bottom   terminal";
+  }
+  .dashboard-grid__sidebar {
+    display: none;
+  }
+}
+
+/* ─── Responsive: Mobile (≤768px) ──────────────────────── */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "header"
+      "center"
+      "terminal"
+      "bottom";
+  }
+  .dashboard-grid__sidebar {
+    display: none;
+  }
+  .dashboard-grid__terminal {
+    max-height: 50vh;
+  }
+}
+
+/* ─── Panel base styles ────────────────────────────────── */
+.dashboard-panel {
+  background: rgba(2, 2, 5, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  position: relative;
+}
+.dashboard-panel:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Market Status Indicator ──────────────────────────── */
+.market-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border: 1px solid;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.market-status-badge--open {
+  color: var(--terminal-green);
+  border-color: rgba(0, 255, 65, 0.3);
+  background: rgba(0, 255, 65, 0.05);
+}
+.market-status-badge--closed {
+  color: var(--terminal-red);
+  border-color: rgba(255, 49, 49, 0.2);
+  background: rgba(255, 49, 49, 0.05);
+}
+.market-status-badge--pre,
+.market-status-badge--post {
+  color: #f0c040;
+  border-color: rgba(240, 192, 64, 0.3);
+  background: rgba(240, 192, 64, 0.05);
+}
+
