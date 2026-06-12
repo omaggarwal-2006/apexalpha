@@ -21,7 +21,8 @@ service cloud.firestore {
       
       // Portfolio subcollection
       match /portfolio/{docId} {
-        allow read, write: if isOwner(userId);
+        allow read: if isOwner(userId);
+        allow write: if false; // Must be updated ONLY via server Admin SDK
       }
     }
 
@@ -47,8 +48,7 @@ service cloud.firestore {
     // Ledger collection (Audit logs)
     match /ledger/{entryId} {
       allow read: if isSignedIn() && (resource.data.uid == request.auth.uid);
-      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
-      allow update, delete: if false; // Ledger is immutable
+      allow write: if false; // Immutable and must be appended ONLY via server Admin SDK
     }
 
     // Prediction Markets (Public Read)

@@ -6,8 +6,9 @@ import { usePortfolio } from "@/hooks/useFirestore";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { ShieldCheck, Zap, AlertCircle, ToggleLeft, ToggleRight, X, TrendingUp, TrendingDown } from "lucide-react";
+import { ShieldCheck, Zap, AlertCircle, ToggleLeft, ToggleRight, X, TrendingUp, TrendingDown, Cpu } from "lucide-react";
 import { playMechanicalClick } from "@/utils/sound";
+import AgentModal from "./AgentModal";
 
 const ASSETS = [
   { symbol: "Nifty 50",   name: "Nifty 50",   category: "Indices" },
@@ -225,6 +226,7 @@ export default function OrderPanel({
   const [loading, setLoading]   = useState(false);
   const [isPanic, setIsPanic]   = useState(false);
   const [modal, setModal]       = useState(null); // "BUY" | "SELL" | null
+  const [isAgentOpen, setIsAgentOpen] = useState(false);
 
   const safePrice  = currentPrice || 1;
   const estProfit  = tpPrice > 0 ? (Math.abs(tpPrice - safePrice) * 1).toFixed(2) : "0.00";
@@ -482,12 +484,21 @@ export default function OrderPanel({
           </motion.button>
         </div>
 
-        <div className="flex items-center justify-center gap-4 opacity-20 mt-4">
-          <div className="h-px w-8 bg-gray-800" />
-          <span className="text-[8px] uppercase tracking-[0.6em] font-header font-black text-white">Sovereign Elite Tier</span>
-          <div className="h-px w-8 bg-gray-800" />
-        </div>
+        <button 
+          onClick={() => setIsAgentOpen(true)}
+          className="w-full mt-4 py-3 bg-[#f0c040]/10 border border-[#f0c040]/30 hover:bg-[#f0c040]/20 text-[#f0c040] font-black uppercase tracking-[0.3em] flex justify-center items-center gap-2 transition-colors text-[10px]"
+        >
+          <Cpu size={14} /> Launch Agentic Strategy
+        </button>
       </div>
+
+      <AgentModal 
+        isOpen={isAgentOpen} 
+        onClose={() => setIsAgentOpen(false)} 
+        currentPrice={safePrice} 
+        balance={displayBalance} 
+        onExecuteAction={(action) => setModal(action)} 
+      />
     </div>
   );
 }

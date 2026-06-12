@@ -4,10 +4,43 @@ import { TrendingUp, TrendingDown, LayoutGrid, ShoppingCart, BarChart3, Trash2, 
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
 
-const PINNED = ["^NSEI", "^NSEBANK", "BTC-USD", "ETH-USD", "RELIANCE.NS", "GC=F", "SOL-USD"];
+const PINNED = ["^NSEI", "^NSEBANK", "BTC-USD", "ETH-USD", "RELIANCE.NS", "GC=F", "SOL-USD", "AAPL", "MSFT", "NVDA", "TSLA", "^GSPC", "EURUSD=X"];
+
+const generateSparklinePath = (data) => {
+  if (!data || data.length < 2) return "";
+  const prices = data.map(d => d.price);
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  const range = max - min || 1;
+  const step = 100 / (data.length - 1);
+  return data.map((d, i) => {
+    const x = i * step;
+    const y = 24 - ((d.price - min) / range) * 24;
+    return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`;
+  }).join(' ');
+};
 
 export default function Watchlist({ onAssetSelect, onAction }) {
   const [data, setData] = useState({});
+  const [sparklines, setSparklines] = useState({});
+
+  useEffect(() => {
+    const fetchSparklines = async () => {
+      try {
+        const promises = PINNED.map(s =>
+          axios.get(`/api/market/history?symbol=${encodeURIComponent(s)}`)
+            .then(r => ({ symbol: s, data: r.data.sparklineData })).catch(() => ({ symbol: s, data: [] }))
+        );
+        const results = await Promise.all(promises);
+        const newSparklines = {};
+        results.forEach(r => { newSparklines[r.symbol] = r.data; });
+        setSparklines(newSparklines);
+      } catch (e) {
+        console.error("Sparkline sync failed", e);
+      }
+    };
+    fetchSparklines();
+  }, []);
 
   useEffect(() => {
     const fetchBatch = async () => {
@@ -25,7 +58,7 @@ export default function Watchlist({ onAssetSelect, onAction }) {
       }
     };
     fetchBatch();
-    const interval = setInterval(fetchBatch, 10000);
+    const interval = setInterval(fetchBatch, 2500);
     return () => clearInterval(interval);
   }, []);
 
@@ -70,9 +103,28 @@ export default function Watchlist({ onAssetSelect, onAction }) {
                       </motion.div>
                     )}
                   </div>
+                  </div>
                   <p className="text-[9px] text-gray-700 font-mono uppercase mt-0.5">{symbol}</p>
                 </div>
-                <div className="text-right">
+                
+                <div className="w-16 h-6 ml-2 mr-auto hidden md:block">
+                  {sparklines[symbol] && sparklines[symbol].length > 1 && (
+                    <svg viewBox="0 0 100 24" className="w-full h-full overflow-visible">
+                      <path
+                        d={generateSparklinePath(sparklines[symbol])}
+                        fill="none"
+                        stroke={isUp ? "#00FF94" : "#FF3131"}
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="opacity-50 group-hover:opacity-100 transition-opacity"
+                        style={{ filter: `drop-shadow(0px 2px 4px ${isUp ? 'rgba(0,255,148,0.3)' : 'rgba(255,49,49,0.3)'})` }}
+                      />
+                    </svg>
+                  )}
+                </div>
+
+                <div className="text-right z-10">
                   <p className="text-[12px] font-mono font-bold text-white" style={{ fontFamily: "'Roboto Mono', monospace" }}>
                     {item?.price
                       ? item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })

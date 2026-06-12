@@ -49,22 +49,8 @@ export class MarketDataService {
       }
 
       let sparklineData: any[] = [];
-      try {
-        // Fetch 7-day historical for sparkline
-        const history: any = await yahooFinance.chart(mapped, { 
-          period1: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-          interval: '1d'
-        });
-
-        if (history && history.quotes) {
-          sparklineData = (history.quotes as any[]).map(q => ({
-            date: q.date,
-            price: q.close
-          })).filter(q => q.price !== null);
-        }
-      } catch (chartError) {
-        console.warn(`[MarketDataService] Chart fetch failed for ${mapped}, returning quote only.`, chartError);
-      }
+      // Sparkline historical data is now fetched asynchronously via Next.js ISR route
+      // to keep this real-time snapshot fast and lightweight.
 
       return {
         symbol: mapped,

@@ -1,14 +1,28 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Zap, DollarSign, Loader2 } from "lucide-react";
-import { injectFunds } from "@/services/PortfolioService";
+import { X, Zap, DollarSign, Loader2, Globe } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { auth } from "@/lib/firebase";
+
+const EXCHANGE_RATES = {
+  USD: 1,
+  JPY: 0.0065,
+  GBP: 1.25,
+  EUR: 1.08,
+  INR: 0.012,
+  CNY: 0.14,
+  CAD: 0.73,
+  KWD: 3.24,
+  AED: 0.27
+};
 
 export default function ManualFundingModal({ isOpen, onClose }) {
   const { user } = useAuth();
   const [amount, setAmount] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [loading, setLoading] = useState(false);
 
   const handleInject = async () => {
@@ -18,14 +32,20 @@ export default function ManualFundingModal({ isOpen, onClose }) {
       return;
     }
 
+    const rate = EXCHANGE_RATES[currency] || 1;
+    const usdAmount = val * rate;
+
     setLoading(true);
     try {
-      await injectFunds(user.uid, val);
-      toast.success(`Liquidity Injected: $${val.toLocaleString()}`);
+      const token = await auth.currentUser.getIdToken();
+      await axios.post('/api/user/inject-funds', { amount: usdAmount }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success(`Liquidity Injected: $${usdAmount.toLocaleString()}`);
       onClose();
       setAmount("");
     } catch (err) {
-      toast.error("Injection failed. Check terminal logs.");
+      toast.error(err.response?.data?.error || err.message || "Injection failed. Check terminal logs.");
     } finally {
       setLoading(false);
     }
@@ -63,9 +83,36 @@ export default function ManualFundingModal({ isOpen, onClose }) {
 
             {/* Body */}
             <div className="p-8 flex flex-col gap-6">
+              
               <div>
                 <label className="text-[10px] text-gray-500 uppercase tracking-widest font-black block mb-3">
-                  Injection Amount (USD)
+                  Currency Asset
+                </label>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#f0c040]">
+                    <Globe size={18} />
+                  </div>
+                  <select
+                    value={currency}
+                    onChange={(e) => setCurrency(e.target.value)}
+                    className="w-full bg-black/40 border border-[#f0c040]/20 focus:border-[#f0c040]/50 outline-none text-white text-lg font-mono font-black py-4 pl-12 pr-6 transition-all appearance-none"
+                  >
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                    <option value="GBP">GBP - British Pound</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="INR">INR - Indian Rupee</option>
+                    <option value="CNY">CNY - Chinese Yuan</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="KWD">KWD - Kuwaiti Dinar</option>
+                    <option value="AED">AED - Emirati Dirham</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] text-gray-500 uppercase tracking-widest font-black block mb-3">
+                  Injection Amount
                 </label>
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#f0c040]">
@@ -84,7 +131,7 @@ export default function ManualFundingModal({ isOpen, onClose }) {
 
               <div className="bg-[#f0c040]/5 border border-[#f0c040]/10 p-4">
                 <p className="text-[9px] text-[#f0c040] font-mono leading-relaxed uppercase tracking-tighter">
-                  Warning: Manual injection bypasses standard treasury protocols. Funds will be credited directly to your sovereign vault.
+                  Warning: Manual injection bypasses standard treasury protocols. Funds will be credited directly to your sovereign vault. Limit 1M USD per 24 hours.
                 </p>
               </div>
 

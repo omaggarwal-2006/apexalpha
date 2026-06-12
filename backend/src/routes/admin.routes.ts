@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { db } from '../config/firebase';
+import { requireAuth, AuthenticatedRequest } from '../middleware/auth.middleware';
 
 const router = Router();
 
 // GET /api/admin/users - Get all users
-router.get('/users', async (req, res) => {
+router.get('/users', requireAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const snapshot = await db.collection('users').get();
     const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -15,7 +16,7 @@ router.get('/users', async (req, res) => {
 });
 
 // GET /api/admin/trades - Get all trades
-router.get('/trades', async (req, res) => {
+router.get('/trades', requireAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const snapshot = await db.collection('trades').get();
     const trades = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

@@ -9,6 +9,7 @@ import MarketDepth from "@/components/MarketDepth";
 import StatsBar from "@/components/StatsBar";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import TopBarTicker from "@/components/TopBarTicker";
+import ManualFundingModal from "@/components/ManualFundingModal";
 
 import Watchlist from "@/components/Watchlist";
 import GrowwSearch from "@/components/GrowwSearch";
@@ -38,8 +39,14 @@ export default function TradePage() {
   const [slPrice, setSlPrice] = useState(0);
   const [tpPrice, setTpPrice] = useState(0);
   
-  const balance = portfolio?.accountBalance || 0;
+  const [balance, setBalance] = useState(0);
   const optimisticTrades = openTrades; // Map to legacy naming for compatibility
+  
+  useEffect(() => {
+    if (portfolio?.accountBalance !== undefined) {
+      setBalance(portfolio.accountBalance);
+    }
+  }, [portfolio?.accountBalance]);
   
   const [currentPrice, setCurrentPrice] = useState(0);
   const [marketAnalytics, setMarketAnalytics] = useState(null);
@@ -50,6 +57,7 @@ export default function TradePage() {
   const [highestSinceOpen, setHighestSinceOpen] = useState(0);
   const [cmdOpen, setCmdOpen] = useState(false);
   const [splitMode, setSplitMode] = useState(null);
+  const [showFunding, setShowFunding] = useState(false);
   const router = useRouter();
 
   // Daily P&L Tracker
@@ -275,7 +283,16 @@ export default function TradePage() {
             </div>
 
             <div className="flex items-center gap-6 flex-shrink-0">
-              <StatsBar optimisticTrades={optimisticTrades} />
+              <div className="flex items-center gap-4">
+                <div className="text-[10px] font-mono text-gray-400 uppercase">Balance</div>
+                <div className="text-[14px] font-black text-white">${balance.toLocaleString()}</div>
+              </div>
+              <button 
+                onClick={() => setShowFunding(true)}
+                className="glass-panel px-4 py-2 border-[#f0c040]/30 hover:bg-[#f0c040]/10 text-[#f0c040] flex items-center gap-2 transition-all"
+              >
+                <span className="text-[10px] font-black uppercase tracking-widest">Add Funds</span>
+              </button>
             </div>
           </motion.div>
         )}
@@ -367,6 +384,7 @@ export default function TradePage() {
         onClose={() => setCmdOpen(false)}
         onAction={handleCommandAction}
       />
+      <ManualFundingModal isOpen={showFunding} onClose={() => setShowFunding(false)} />
     </motion.div>
   );
 }

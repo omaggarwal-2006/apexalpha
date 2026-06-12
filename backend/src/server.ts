@@ -2,11 +2,13 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
 import * as dotenv from 'dotenv';
 import userRoutes from './routes/user.routes';
 import tradeRoutes from './routes/trade.routes';
 import marketRoutes from './routes/market.routes';
 import adminRoutes from './routes/admin.routes';
+import agentRoutes from './routes/agent.routes';
 import { MarketDataService } from './services/market.service';
 
 dotenv.config();
@@ -14,16 +16,26 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: '*' }
+  cors: { origin: [process.env.FRONTEND_URL || 'http://localhost:3000'] }
 });
 
-app.use(cors());
+app.use(cors({ origin: [process.env.FRONTEND_URL || 'http://localhost:3000'] }));
 app.use(express.json());
+
+const apiLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100, // Limit each IP to 100 requests per `window` (here, per minute)
+  message: 'Too many requests from this IP, please try again after a minute',
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/', apiLimiter);
 
 app.use('/api/user', userRoutes);
 app.use('/api/trade', tradeRoutes);
 app.use('/api/market', marketRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/agent', agentRoutes);
 
 // Multi-Asset Polling Engine
 const ASSETS = ['Nifty 50', 'Bank Nifty', 'Gold', 'Crude Oil', 'BTC-USD', 'ETH-USD', 'RELIANCE'];
@@ -45,8 +57,8 @@ const pollMarketData = async () => {
   } catch (error) {
     console.error("Market data polling error:", error);
   } finally {
-    // Poll every 5000ms as per plan
-    setTimeout(pollMarketData, 5000);
+    // Poll every 2000ms for high-frequency updates
+    setTimeout(pollMarketData, 2000);
   }
 };
 

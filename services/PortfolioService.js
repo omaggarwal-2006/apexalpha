@@ -74,47 +74,4 @@ export const subscribeToPortfolio = (uid, callback) => {
   });
 };
 
-/**
- * Inject manual funds into user account
- */
-export const injectFunds = async (uid, amount) => {
-  try {
-    const batch = writeBatch(db);
-    
-    // 1. Update user document balance
-    const userRef = doc(db, COLLECTIONS.USERS, uid);
-    const userSnap = await getDoc(userRef);
-    const currentBalance = userSnap.exists() ? (userSnap.data().balance || 0) : 0;
-    const newBalance = currentBalance + amount;
-    
-    batch.update(userRef, { 
-      balance: newBalance,
-      updatedAt: serverTimestamp()
-    });
 
-    // 2. Create ledger entry
-    const ledgerRef = doc(collection(db, COLLECTIONS.LEDGER));
-    batch.set(ledgerRef, {
-      uid,
-      type: "CREDIT",
-      description: "Manual Liquidity Injection",
-      amount: amount,
-      timestamp: new Date().toISOString(),
-      serverTimestamp: serverTimestamp()
-    });
-
-    await batch.commit();
-
-    // 3. Update portfolio current snapshot (Use setDoc with merge to create if missing)
-    const portfolioRef = doc(db, COLLECTIONS.USERS, uid, "portfolio", "current");
-    await setDoc(portfolioRef, {
-      accountBalance: newBalance,
-      updatedAt: new Date().toISOString()
-    }, { merge: true });
-
-    return newBalance;
-  } catch (error) {
-    console.error("Error injecting funds:", error);
-    throw error;
-  }
-};

@@ -46,34 +46,66 @@ router.get('/', requireAuth, async (req: AuthenticatedRequest, res) => {
   }
 });
 
-router.post('/add-funds', requireAuth, async (req: AuthenticatedRequest, res) => {
+router.post('/inject-funds', requireAuth, async (req: AuthenticatedRequest, res) => {
   try {
     const uid = req.user!.uid;
-    let newBalance = 100000;
-    
-    try {
-      const userDoc = await db.collection('users').doc(uid).get();
-      if (userDoc.exists) {
-        const addAmount = req.body.amount || 10000;
-        await db.collection('users').doc(uid).update({ 
-          balance: admin.firestore.FieldValue.increment(addAmount) 
-        });
-        const updatedDoc = await db.collection('users').doc(uid).get();
-        newBalance = updatedDoc.data()?.balance || 100000;
-      }
-    } catch (dbError) {
-      console.warn("[Sovereign-Recovery] Add funds using local ledger fallback.");
-      const currentBalance = req.body.currentBalance || 0;
-      const addAmount = req.body.amount || 10000;
-      const isPremium = req.body.isPremium || false;
-      newBalance = isPremium
-        ? currentBalance + addAmount
-        : Math.min(100000, currentBalance + addAmount);
+    const { amount } = req.body;
+
+    if (!amount || typeof amount !== 'number' || amount <= 0) {
+      return res.status(400).json({ error: 'Invalid injection amount.' });
     }
-    
+
+    if (amount > 1000000) {
+      return res.status(400).json({ error: 'Injection limit is 1,000,000 per transaction.' });
+    }
+
+    let newBalance = 0;
+
+    await db.runTransaction(async (transaction) => {
+      const userRef = db.collection('users').doc(uid);
+      const userDoc = await transaction.get(userRef);
+      const userData = userDoc.exists ? userDoc.data() : {};
+
+      if (userData?.lastInjectionTimestamp) {
+        const lastInjection = new Date(userData.lastInjectionTimestamp);
+        const now = new Date();
+        if (now.getTime() - lastInjection.getTime() < 24 * 60 * 60 * 1000) {
+          throw new Error('You must wait 24 hours before adding another 1 million dollars.');
+        }
+      }
+
+      const currentBalance = userData?.balance || 0;
+      newBalance = currentBalance + amount;
+
+      const nowIso = new Date().toISOString();
+
+      transaction.update(userRef, { 
+        balance: newBalance,
+        lastInjectionTimestamp: nowIso,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+      });
+
+      const ledgerRef = db.collection('ledger').doc();
+      transaction.set(ledgerRef, {
+        uid,
+        type: "CREDIT",
+        description: "Manual Liquidity Injection",
+        amount: amount,
+        timestamp: nowIso,
+        serverTimestamp: admin.firestore.FieldValue.serverTimestamp()
+      });
+
+      const portfolioRef = db.collection('users').doc(uid).collection('portfolio').doc('current');
+      transaction.set(portfolioRef, {
+        accountBalance: newBalance,
+        updatedAt: nowIso
+      }, { merge: true });
+    });
+
     res.json({ success: true, balance: newBalance });
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to add funds' });
+  } catch (error: any) {
+    console.error("Error injecting funds:", error);
+    res.status(400).json({ error: error.message || 'Failed to inject funds' });
   }
 });
 
