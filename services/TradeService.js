@@ -14,6 +14,30 @@ export const TradeService = {
    */
   executeTrade: async (uid, tradeData) => {
     try {
+      if (!db) {
+        console.warn("[Sovereign-Recovery] Local trade execution fallback.");
+        const finalTrade = {
+          ...tradeData,
+          uid,
+          status: "OPEN",
+          createdAt: new Date().toISOString()
+        };
+        if (typeof window !== "undefined") {
+          const local = localStorage.getItem("apex_local_trades");
+          let arr = [];
+          try { arr = JSON.parse(local || "[]"); } catch {}
+          arr.push(finalTrade);
+          localStorage.setItem("apex_local_trades", JSON.stringify(arr));
+          
+          const localBal = localStorage.getItem("apex_local_balance");
+          let currentBal = localBal ? parseFloat(localBal) : 100000;
+          const deduction = (tradeData.margin || 0) + (tradeData.fees || 0);
+          const newBal = currentBal - deduction;
+          localStorage.setItem("apex_local_balance", newBal.toString());
+          window.dispatchEvent(new Event("local-ledger-update"));
+        }
+        return tradeData.id;
+      }
       const batch = writeBatch(db);
       
       // 1. Create trade document (Use provided ID if available for consistency)
@@ -66,6 +90,29 @@ export const TradeService = {
    */
   closeTrade: async (uid, tradeId, exitData) => {
     try {
+      if (!db) {
+        console.warn("[Sovereign-Recovery] Local trade close fallback.");
+        if (typeof window !== "undefined") {
+          const local = localStorage.getItem("apex_local_trades");
+          let arr = [];
+          try { arr = JSON.parse(local || "[]"); } catch {}
+          const updated = arr.map(t => 
+            t.id === tradeId ? { ...t, ...exitData, status: "CLOSED", closedAt: new Date().toISOString() } : t
+          );
+          localStorage.setItem("apex_local_trades", JSON.stringify(updated));
+
+          const localBal = localStorage.getItem("apex_local_balance");
+          let currentBal = localBal ? parseFloat(localBal) : 100000;
+          const targetTrade = arr.find(t => t.id === tradeId);
+          if (targetTrade) {
+            const refund = (targetTrade.margin || 0) + (exitData.pnl || 0);
+            const newBal = currentBal + refund;
+            localStorage.setItem("apex_local_balance", newBal.toString());
+          }
+          window.dispatchEvent(new Event("local-ledger-update"));
+        }
+        return;
+      }
       const tradeRef = doc(db, COLLECTIONS.TRADES, tradeId);
       await updateDoc(tradeRef, {
         ...exitData,

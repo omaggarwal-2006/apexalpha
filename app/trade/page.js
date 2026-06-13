@@ -39,8 +39,49 @@ export default function TradePage() {
   const [slPrice, setSlPrice] = useState(0);
   const [tpPrice, setTpPrice] = useState(0);
   
-  const [balance, setBalance] = useState(0);
-  const optimisticTrades = openTrades; // Map to legacy naming for compatibility
+  const [balance, setBalance] = useState(() => {
+    if (typeof window !== "undefined") {
+      const localBal = localStorage.getItem("apex_local_balance");
+      if (localBal) return parseFloat(localBal);
+    }
+    return 100000;
+  });
+  
+  const [localTrades, setLocalTrades] = useState([]);
+  const optimisticTrades = (!tradesLoading && openTrades && openTrades.length > 0) ? openTrades : localTrades;
+
+  const setOptimisticTrades = useCallback((valOrFn) => {
+    setLocalTrades(prev => {
+      const newVal = typeof valOrFn === 'function' ? valOrFn(prev) : valOrFn;
+      localStorage.setItem("apex_local_trades", JSON.stringify(newVal));
+      return newVal;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (openTrades && openTrades.length > 0) {
+      setLocalTrades(openTrades);
+      localStorage.setItem("apex_local_trades", JSON.stringify(openTrades));
+    }
+  }, [openTrades]);
+
+  const reloadLocalLedger = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const localBal = localStorage.getItem("apex_local_balance");
+      if (localBal) setBalance(parseFloat(localBal));
+      
+      const local = localStorage.getItem("apex_local_trades");
+      if (local) {
+        try { setLocalTrades(JSON.parse(local)); } catch {}
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    reloadLocalLedger();
+    window.addEventListener("local-ledger-update", reloadLocalLedger);
+    return () => window.removeEventListener("local-ledger-update", reloadLocalLedger);
+  }, [reloadLocalLedger]);
   
   useEffect(() => {
     if (portfolio?.accountBalance !== undefined) {
@@ -205,8 +246,12 @@ export default function TradePage() {
       case "splitoff": setSplitMode(null); break;
       case "theme": document.documentElement.classList.toggle("dark"); break;
       case "reset":
-        axios.post("/api/user/reset", {}, { headers: { Authorization: `Bearer ${auth.currentUser?.accessToken}` } })
-          .then(r => setBalance(r.data.balance));
+        const resetToken = auth?.currentUser?.accessToken || "mock-id-token";
+        axios.post("/api/user/reset", {}, { headers: { Authorization: `Bearer ${resetToken}` } })
+          .then(r => {
+            setBalance(r.data.balance);
+            localStorage.setItem("apex_local_balance", r.data.balance.toString());
+          });
         break;
       case "selectAsset": handleAssetChange(payload); break;
     }

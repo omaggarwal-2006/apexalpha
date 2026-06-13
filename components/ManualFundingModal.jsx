@@ -37,11 +37,15 @@ export default function ManualFundingModal({ isOpen, onClose }) {
 
     setLoading(true);
     try {
-      const token = await auth.currentUser.getIdToken();
-      await axios.post('/api/user/inject-funds', { amount: usdAmount }, {
+      const token = auth?.currentUser ? await auth.currentUser.getIdToken() : "mock-id-token";
+      const res = await axios.post('/api/user/inject-funds', { amount: usdAmount }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success(`Liquidity Injected: $${usdAmount.toLocaleString()}`);
+      if (typeof window !== "undefined" && res.data?.balance !== undefined) {
+        localStorage.setItem("apex_local_balance", res.data.balance.toString());
+        window.dispatchEvent(new Event("local-ledger-update"));
+      }
       onClose();
       setAmount("");
     } catch (err) {

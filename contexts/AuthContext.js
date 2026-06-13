@@ -14,6 +14,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (!auth) {
+      setUser({
+        uid: "mock-sovereign-user-id",
+        email: "sovereign@apex.alpha",
+        displayName: "Sovereign Speculator",
+        getIdToken: async () => "mock-id-token"
+      });
       setLoading(false);
       return;
     }

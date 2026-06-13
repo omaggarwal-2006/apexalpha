@@ -10,7 +10,7 @@ router.get('/search', async (req, res) => {
     const query = req.query.q as string;
     if (!query) return res.json([]);
     try {
-      const results: any = await yahooFinance.search(query);
+      const results: any = await yahooFinance.search(query, {}, { validateResult: false });
       return res.json(results.quotes.map((q: any) => ({
         symbol: q.symbol,
         name: q.shortname,

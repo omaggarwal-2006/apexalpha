@@ -98,7 +98,7 @@ export class MarketDataService {
       
       console.log(`[MarketDataService] Fetching: Symbol=${symbol}, Mapped=${mapped}`);
       
-      const quote: any = await yahooFinance.quote(mapped);
+      const quote: any = await yahooFinance.quote(mapped, {}, { validateResult: false });
       
       if (!quote) {
         console.warn(`[MarketDataService] No quote found for ${mapped}, using fallback.`);
@@ -182,7 +182,7 @@ export class MarketDataService {
    */
   static async searchAssets(query: string) {
     try {
-      const results: any = await yahooFinance.search(query);
+      const results: any = await yahooFinance.search(query, {}, { validateResult: false });
       return results.quotes.map((q: any) => ({
         symbol: q.symbol,
         name: q.shortname || q.longname || q.symbol,
@@ -202,7 +202,7 @@ export class MarketDataService {
     const prices: Record<string, number> = {};
     try {
       const mappedSymbols = symbols.map(s => this.mapSymbol(s));
-      const response = await yahooFinance.quote(mappedSymbols);
+      const response = await yahooFinance.quote(mappedSymbols, {}, { validateResult: false });
       const quotes: any[] = Array.isArray(response) ? response : [response];
       
       for (const symbol of symbols) {
