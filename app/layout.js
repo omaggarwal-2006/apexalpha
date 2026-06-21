@@ -8,7 +8,7 @@ export const metadata = {
   title: "APEX ALPHA | Sovereign Elite Tier",
   description: "Institutional Grade Agentic Trading Terminal",
   other: {
-    "google-adsense-account": "ca-pub-374088763138789",
+    "google-adsense-account": "ca-pub-3740887631837879",
   },
 };
 
@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
       <head>
         <script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-374088763138789"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3740887631837879"
           crossOrigin="anonymous"
         />
       </head>
