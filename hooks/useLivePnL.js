@@ -111,7 +111,7 @@ export function useLivePnL(trades = []) {
       const spread = isShort
         ? entryPrice - currentPrice
         : currentPrice - entryPrice;
-      pnl += spread * lots * leverage * contractSize;
+      pnl += spread * lots * contractSize;
 
       // Margin used = (entryPrice × lots × contractSize) / leverage
       margin += (entryPrice * lots * contractSize) / leverage;

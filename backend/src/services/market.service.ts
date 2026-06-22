@@ -1,4 +1,5 @@
 import YahooFinance from 'yahoo-finance2';
+import axios from 'axios';
 const yahooFinance = new YahooFinance();
 
 export class MarketDataService {
@@ -97,8 +98,39 @@ export class MarketDataService {
       const mapped = this.mapSymbol(symbol);
       
       console.log(`[MarketDataService] Fetching: Symbol=${symbol}, Mapped=${mapped}`);
+
+      // If it's a crypto symbol, try fetching from Binance first for extreme speed and reliability
+      if (['BTC-USD', 'ETH-USD', 'SOL-USD'].includes(mapped)) {
+        try {
+          const binSym = mapped.replace('-USD', 'USDT');
+          console.log(`[MarketDataService] Attempting Binance fetch for: ${binSym}`);
+          const res = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${binSym}`, { timeout: 2000 });
+          console.log(`[MarketDataService] Binance fetch resolved for: ${binSym}, status: ${res.status}`);
+          if (res.data && res.data.price) {
+            const priceVal = parseFloat(res.data.price);
+            return {
+              symbol: mapped,
+              name: mapped === 'BTC-USD' ? 'Bitcoin' : mapped === 'ETH-USD' ? 'Ethereum' : 'Solana',
+              price: priceVal,
+              changePercent: 0,
+              marketState: 'REGULAR',
+              volume: 0,
+              averageVolume: 0,
+              quoteType: 'CRYPTOCURRENCY',
+              recommendationMean: null,
+              sparklineData: []
+            };
+          }
+        } catch (err: any) {
+          console.warn(`[MarketDataService] Binance fetch failed for ${mapped}, trying Yahoo Finance:`, err.message);
+        }
+      }
       
-      const quote: any = await yahooFinance.quote(mapped, {}, { validateResult: false });
+      const quotePromise = yahooFinance.quote(mapped, {}, { validateResult: false });
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Yahoo Finance quote request timed out')), 3000)
+      );
+      const quote: any = await Promise.race([quotePromise, timeoutPromise]);
       
       if (!quote || quote.regularMarketPrice === undefined || quote.regularMarketPrice === null) {
         console.warn(`[MarketDataService] No quote or valid price found for ${mapped}, using fallback.`);
@@ -201,26 +233,70 @@ export class MarketDataService {
   static async getBatchPrices(symbols: string[]): Promise<Record<string, number>> {
     const prices: Record<string, number> = {};
     try {
-      const mappedSymbols = symbols.map(s => this.mapSymbol(s));
-      const response = await yahooFinance.quote(mappedSymbols, {}, { validateResult: false });
-      const quotes: any[] = Array.isArray(response) ? response : [response];
-      
-      for (const symbol of symbols) {
-        const mapped = this.mapSymbol(symbol);
-        const found = quotes.find(q => q.symbol === mapped);
-        if (found && found.regularMarketPrice !== undefined && found.regularMarketPrice !== null) {
-          prices[symbol] = found.regularMarketPrice;
-        } else {
-          const snapshot = await this.getMarketSnapshot(symbol);
-          prices[symbol] = snapshot.price;
+      // For any crypto symbols in the batch, fetch them from Binance in parallel!
+      const cryptoSymbols = symbols.filter(s => ['BTC-USD', 'ETH-USD', 'SOL-USD'].includes(this.mapSymbol(s)));
+      const nonCryptoSymbols = symbols.filter(s => !['BTC-USD', 'ETH-USD', 'SOL-USD'].includes(this.mapSymbol(s)));
+
+      const cryptoPromises = cryptoSymbols.map(async (symbol) => {
+        try {
+          const mapped = this.mapSymbol(symbol);
+          const binSym = mapped.replace('-USD', 'USDT');
+          const res = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${binSym}`, { timeout: 2000 });
+          if (res.data && res.data.price) {
+            prices[symbol] = parseFloat(res.data.price);
+            return;
+          }
+        } catch {}
+        // Fallback to market snapshot if Binance fails
+        const snap = await this.getMarketSnapshot(symbol);
+        prices[symbol] = snap.price;
+      });
+
+      // Run crypto fetches in parallel
+      await Promise.all(cryptoPromises);
+
+      // For non-crypto symbols, use the normal Yahoo Finance flow
+      if (nonCryptoSymbols.length > 0) {
+        const mappedNonCrypto = nonCryptoSymbols.map(s => this.mapSymbol(s));
+        const quotePromise = yahooFinance.quote(mappedNonCrypto, {}, { validateResult: false });
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Yahoo Finance batch request timed out')), 2000)
+        );
+        
+        try {
+          const response = await Promise.race([quotePromise, timeoutPromise]);
+          const quotes: any[] = Array.isArray(response) ? response : [response];
+          
+          const snapshotPromises: Promise<any>[] = [];
+          const snapshotSymbols: string[] = [];
+          
+          for (const symbol of nonCryptoSymbols) {
+            const mapped = this.mapSymbol(symbol);
+            const found = quotes.find(q => q.symbol === mapped);
+            if (found && found.regularMarketPrice !== undefined && found.regularMarketPrice !== null) {
+              prices[symbol] = found.regularMarketPrice;
+            } else {
+              snapshotPromises.push(this.getMarketSnapshot(symbol));
+              snapshotSymbols.push(symbol);
+            }
+          }
+
+          if (snapshotPromises.length > 0) {
+            const snapshots = await Promise.all(snapshotPromises);
+            snapshots.forEach((snap, idx) => {
+              prices[snapshotSymbols[idx]] = snap.price;
+            });
+          }
+        } catch (error) {
+          console.warn("Yahoo Finance non-crypto bulk fetch failed, falling back to snapshots:", error);
+          const snapshots = await Promise.all(nonCryptoSymbols.map(symbol => this.getMarketSnapshot(symbol)));
+          nonCryptoSymbols.forEach((symbol, index) => {
+            prices[symbol] = snapshots[index].price;
+          });
         }
       }
     } catch (error) {
-      console.warn("Yahoo Finance bulk fetch failed, falling back to snapshots:", error);
-      for (const symbol of symbols) {
-        const snapshot = await this.getMarketSnapshot(symbol);
-        prices[symbol] = snapshot.price;
-      }
+      console.error("Error in getBatchPrices:", error);
     }
     return prices;
   }
