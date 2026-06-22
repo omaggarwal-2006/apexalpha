@@ -24,7 +24,8 @@ export default function ActivePositions({ trades = [], currentPrice, balance, se
     setClosing(trade.id);
     const lp = currentPrice || trade.entryPrice || 100;
     const pnl = calcPnL(trade);
-    const returned = lp * (trade.lot ?? 1);
+    const marginRequired = (trade.entryPrice * (trade.lot ?? 1)) / (trade.leverage ?? 1);
+    const returned = marginRequired + pnl;
 
     // Optimistic local update
     setTrades(prev => prev.map(t =>

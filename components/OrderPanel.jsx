@@ -203,6 +203,8 @@ function ExecutionModal({ type, selectedAsset, currentPrice, balance, onConfirm,
 // ── Main OrderPanel ──────────────────────────────────────────
 export default function OrderPanel({
   balance: propBalance,
+  setBalance,
+  setOptimisticTrades,
   selectedAsset,
   onAssetChange,
   slPrice,
@@ -250,11 +252,12 @@ export default function OrderPanel({
       try { arr = JSON.parse(local || "[]"); } catch {}
       let refund = 0, closed = 0;
       const updated = arr.map(t => {
-        if (t.status === "OPEN") {
+        if (t.status === "OPEN" || t.status === "open") {
           closed++;
           const lp = currentPrice || t.entryPrice || 100;
-          refund += lp * t.lot;
-          const pnl = (t.type === "BUY" ? lp - t.entryPrice : t.entryPrice - lp) * t.lot - (t.fees?.total ?? 0);
+          const marginRequired = (t.entryPrice * t.lot) / (t.leverage ?? 1);
+          const pnl = (t.type === "BUY" ? lp - t.entryPrice : t.entryPrice - lp) * t.lot;
+          refund += marginRequired + pnl;
           return { ...t, status: "CLOSED", exitPrice: lp, pnl };
         }
         return t;
@@ -262,10 +265,15 @@ export default function OrderPanel({
       toast.dismiss();
       if (closed > 0) {
         const nb = balance + refund;
-        setBalance(nb);
+        if (setBalance) {
+          setBalance(nb);
+        }
         localStorage.setItem("apex_local_balance", nb.toString());
-        setOptimisticTrades(updated);
-        localStorage.setItem("apex_local_trades", JSON.stringify(updated));
+        if (setOptimisticTrades) {
+          setOptimisticTrades(updated);
+        } else {
+          localStorage.setItem("apex_local_trades", JSON.stringify(updated));
+        }
         toast.success(`Liquidated ${closed} position(s).`);
       } else {
         toast.error("No open positions to liquidate.");

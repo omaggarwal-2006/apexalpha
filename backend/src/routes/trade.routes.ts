@@ -67,10 +67,8 @@ router.post('/', requireAuth, async (req: AuthenticatedRequest, res) => {
           throw new Error(`Insufficient Buying Power. Required: $${totalDeduction.toFixed(2)} (incl. fees)`);
         }
 
-        // Atomic balance deduction — never overwrites to 0
-        const delta = type === 'BUY'
-          ? -totalDeduction
-          : marginRequired - (fees?.total ?? 0);
+        // Atomic balance deduction — never overwrites to 0 (margin is deducted for both BUY and SELL)
+        const delta = -totalDeduction;
 
         transaction.update(userRef, {
           balance: admin.firestore.FieldValue.increment(delta)
@@ -128,13 +126,12 @@ router.delete('/:id', requireAuth, async (req: AuthenticatedRequest, res) => {
 
       const userDoc     = await transaction.get(userRef);
       const balance     = userDoc.data()?.balance ?? 0;
-      const originalCost = tradeData.entryPrice * tradeData.lot;
       const feesTotal    = tradeData.fees?.total ?? 0;
+      const marginRequired = (tradeData.entryPrice * tradeData.lot) / tradeData.leverage;
+      const totalDeduction = marginRequired + feesTotal;
 
-      // Restore: reverse the trade cost + refund fees
-      const restoredBalance = tradeData.type === 'BUY'
-        ? balance + originalCost + feesTotal
-        : balance - originalCost + feesTotal;
+      // Restore exactly what was deducted on open
+      const restoredBalance = balance + totalDeduction;
 
       transaction.delete(tradeRef);
       transaction.update(userRef, { balance: restoredBalance });
@@ -174,7 +171,8 @@ router.post('/close/:id', requireAuth, async (req: AuthenticatedRequest, res) =>
 
         const userDoc   = await transaction.get(userRef);
         const balance   = userDoc.data()?.balance ?? 0;
-        const returned  = livePrice * td.lot;
+        const marginRequired = (td.entryPrice * td.lot) / td.leverage;
+        const returned  = marginRequired + spread * td.lot;
 
         // Use FieldValue.increment for atomic balance restoration
         transaction.update(userRef, {

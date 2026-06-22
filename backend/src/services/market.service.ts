@@ -100,8 +100,8 @@ export class MarketDataService {
       
       const quote: any = await yahooFinance.quote(mapped, {}, { validateResult: false });
       
-      if (!quote) {
-        console.warn(`[MarketDataService] No quote found for ${mapped}, using fallback.`);
+      if (!quote || quote.regularMarketPrice === undefined || quote.regularMarketPrice === null) {
+        console.warn(`[MarketDataService] No quote or valid price found for ${mapped}, using fallback.`);
         return this.getFallbackData(symbol);
       }
 
@@ -208,12 +208,19 @@ export class MarketDataService {
       for (const symbol of symbols) {
         const mapped = this.mapSymbol(symbol);
         const found = quotes.find(q => q.symbol === mapped);
-        if (found && found.regularMarketPrice) {
+        if (found && found.regularMarketPrice !== undefined && found.regularMarketPrice !== null) {
           prices[symbol] = found.regularMarketPrice;
+        } else {
+          const snapshot = await this.getMarketSnapshot(symbol);
+          prices[symbol] = snapshot.price;
         }
       }
     } catch (error) {
-      console.warn("Yahoo Finance bulk fetch failed:", error);
+      console.warn("Yahoo Finance bulk fetch failed, falling back to snapshots:", error);
+      for (const symbol of symbols) {
+        const snapshot = await this.getMarketSnapshot(symbol);
+        prices[symbol] = snapshot.price;
+      }
     }
     return prices;
   }

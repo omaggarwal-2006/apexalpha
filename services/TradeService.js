@@ -90,7 +90,8 @@ export const TradeService = {
    */
   closeTrade: async (uid, tradeId, exitData) => {
     try {
-      if (!db) {
+      const isLocal = !db || tradeId.startsWith("local-") || tradeId.startsWith("trade-");
+      if (isLocal) {
         console.warn("[Sovereign-Recovery] Local trade close fallback.");
         if (typeof window !== "undefined") {
           const local = localStorage.getItem("apex_local_trades");
@@ -105,7 +106,8 @@ export const TradeService = {
           let currentBal = localBal ? parseFloat(localBal) : 100000;
           const targetTrade = arr.find(t => t.id === tradeId);
           if (targetTrade) {
-            const refund = (targetTrade.margin || 0) + (exitData.pnl || 0);
+            const margin = targetTrade.margin || (targetTrade.entryPrice * targetTrade.lot) / (targetTrade.leverage ?? 1) || 0;
+            const refund = margin + (exitData.pnl || 0);
             const newBal = currentBal + refund;
             localStorage.setItem("apex_local_balance", newBal.toString());
           }

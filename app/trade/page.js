@@ -182,7 +182,8 @@ export default function TradePage() {
     const livePrice = currentPrice || target.entryPrice || 100;
     const spread = target.type === 'BUY' ? livePrice - target.entryPrice : target.entryPrice - livePrice;
     const localPnl = spread * target.lot - (target.fees?.total ?? 0);
-    const returnedCash = livePrice * target.lot;
+    const marginRequired = (target.entryPrice * target.lot) / (target.leverage ?? 1);
+    const returnedCash = marginRequired + spread * target.lot;
 
     // Local balance calculation
     const newBalance = balance + returnedCash;
@@ -395,6 +396,8 @@ export default function TradePage() {
       >
         <OrderPanel
           balance={balance}
+          setBalance={setBalance}
+          setOptimisticTrades={setOptimisticTrades}
           selectedAsset={selectedAsset}
           onAssetChange={handleAssetChange}
           slPrice={slPrice}

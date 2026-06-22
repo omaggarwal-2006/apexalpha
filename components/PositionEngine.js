@@ -55,12 +55,19 @@ export default function PositionEngine({ trades = [], currentPrice = 0 }) {
     const currentPrice = getLivePrice(trade);
     const lots = trade.lot || trade.lots || 1;
     const pnl = calcPnL(trade);
-    const returned = currentPrice * lots;
 
     toast.success(`Position closed — PnL: ${pnl >= 0 ? "+" : ""}$${pnl.toFixed(2)}`);
 
-    // Backend + Firestore sync
-    if (user && !trade.id.startsWith("trade-") && !trade.id.startsWith("local-")) {
+    const isLocal = !user || trade.id.startsWith("trade-") || trade.id.startsWith("local-");
+
+    if (isLocal) {
+      // Local close updating local ledger and balance
+      await TradeService.closeTrade(user?.uid || "mock-sovereign-user-id", trade.id, {
+        exitPrice: currentPrice,
+        pnl
+      });
+    } else {
+      // Backend + Firestore sync
       try {
         const token = await user.getIdToken();
         await Promise.all([
