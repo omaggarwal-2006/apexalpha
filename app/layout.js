@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import CursorTrailer from "@/components/CursorTrailer";
 import ClientSetup from "@/components/ClientSetup";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata = {
   title: "APEX ALPHA | Sovereign Elite Tier",
@@ -44,6 +45,7 @@ export default function RootLayout({ children }) {
             {children}
           </main>
         </AuthProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
