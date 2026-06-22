@@ -150,7 +150,7 @@ export default function PerformancePage() {
       if (auth.currentUser) {
         try {
           const token = await auth.currentUser.getIdToken();
-          const res   = await axios.get("http://localhost:3001/api/trade/history", {
+          const res   = await axios.get("/api/trade/history", {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (res.data && res.data.length > 0) {

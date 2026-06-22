@@ -12,7 +12,7 @@ export async function GET(request) {
   }
 
   try {
-    const res = await axios.get(`http://localhost:3001/api/market/snapshot?symbol=${encodeURIComponent(symbol)}`);
+    const res = await axios.get(`http://127.0.0.1:3001/api/market/snapshot?symbol=${encodeURIComponent(symbol)}`);
     // Extract only the sparkline data for the chart to keep the payload small
     return NextResponse.json({ sparklineData: res.data.sparklineData });
   } catch (error) {

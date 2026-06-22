@@ -25,7 +25,7 @@ const priceCache = new Map();
  * @returns {Promise<object|null>}
  */
 async function fetchFromBackend(symbol) {
-  const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
+  const backendUrl = process.env.BACKEND_URL || 'http://127.0.0.1:3001';
 
   try {
     const response = await fetch(

@@ -45,7 +45,7 @@ export default function CommandBar({ isOpen, onClose, onAction }) {
     const timer = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:3001/api/market/search?q=${encodeURIComponent(query)}`);
+        const res = await axios.get(`/api/market/search?q=${encodeURIComponent(query)}`);
         setResults(res.data.slice(0, 8));
         setActiveIdx(0);
       } catch { setResults([]); }

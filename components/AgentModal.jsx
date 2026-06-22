@@ -21,7 +21,7 @@ export default function AgentModal({ isOpen, onClose, currentPrice, balance, onE
     setLogs([]);
     try {
       const token = await user.getIdToken();
-      const res = await axios.post("http://localhost:3001/api/agent/execute", {
+      const res = await axios.post("/api/agent/execute", {
         script,
         currentPrice,
         balance
