@@ -251,9 +251,28 @@ export default function LandingPage() {
         </motion.div>
       </motion.div>
 
-      <div className="fixed bottom-8 text-[10px] font-mono font-black uppercase tracking-[0.8em] text-gray-700 opacity-30 select-none">
-        System Protocol: Sovereign Elite Tier // Access Level 10
+      <div className="fixed bottom-4 left-0 right-0 flex flex-col items-center gap-2 z-50">
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[9px] font-mono text-gray-500 uppercase tracking-widest px-4">
+          <Link href="/about" className="hover:text-[#f0c040] transition-colors">About</Link>
+          <span>|</span>
+          <Link href="/contact" className="hover:text-[#f0c040] transition-colors">Contact</Link>
+          <span>|</span>
+          <Link href="/privacy" className="hover:text-[#f0c040] transition-colors">Privacy</Link>
+          <span>|</span>
+          <Link href="/terms" className="hover:text-[#f0c040] transition-colors">Terms</Link>
+          <span>|</span>
+          <Link href="/disclaimer" className="hover:text-[#f0c040] transition-colors">Disclaimer</Link>
+          <span>|</span>
+          <Link href="/cookies" className="hover:text-[#f0c040] transition-colors">Cookies</Link>
+          <span>|</span>
+          <Link href="/trust" className="hover:text-[#f0c040] transition-colors">Trust</Link>
+        </div>
+        <div className="text-[8px] font-mono font-black uppercase tracking-[0.6em] text-gray-700 opacity-40 select-none">
+          System Protocol: Sovereign Elite Tier // Access Level 10
+        </div>
       </div>
+
+
 
       {/* Global Scanline Overlay */}
       <div className="fixed inset-0 pointer-events-none z-[100] scanlines" />
