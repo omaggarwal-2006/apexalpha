@@ -4,8 +4,13 @@ export const metadata = {
   openGraph: {
     title: "Financial Disclaimer | APEX ALPHA",
     description: "Learn about the high risks of speculative trading and understand that our terminal provides virtual simulations only.",
-    url: "https://apexalpha.io/disclaimer",
+    url: "https://www.apexalpha.fun/disclaimer",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Financial Disclaimer | APEX ALPHA",
+    description: "Learn about the high risks of speculative trading and understand that our terminal provides virtual simulations only.",
   }
 };
 

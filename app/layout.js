@@ -5,8 +5,23 @@ import ClientSetup from "@/components/ClientSetup";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
-  title: "APEX ALPHA | Sovereign Elite Tier",
+  metadataBase: new URL("https://www.apexalpha.fun"),
+  title: {
+    default: "APEX ALPHA | Sovereign Elite Tier",
+    template: "%s | APEX ALPHA",
+  },
   description: "Institutional Grade Agentic Trading Terminal",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.apexalpha.fun",
+    siteName: "APEX ALPHA",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "APEX ALPHA | Sovereign Elite Tier",
+    description: "Institutional Grade Agentic Trading Terminal",
+  },
   other: {
     "google-adsense-account": "ca-pub-3740887631837879",
   },
@@ -22,7 +37,7 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         />
       </head>
-      <body suppressHydrationWarning={true} className="min-h-full flex flex-col bg-[#020205] text-white selection:bg-[#f0c040]/30 overflow-hidden">
+      <body suppressHydrationWarning={true} className="min-h-full flex flex-col bg-[#020205] text-white selection:bg-[#f0c040]/30">
         <AuthProvider>
           <ClientSetup />
           <CursorTrailer />

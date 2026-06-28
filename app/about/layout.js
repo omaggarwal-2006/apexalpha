@@ -4,8 +4,13 @@ export const metadata = {
   openGraph: {
     title: "About Us | APEX ALPHA Sovereign Suite",
     description: "Discover the core mission, institutional vision, and values behind APEX ALPHA.",
-    url: "https://apexalpha.io/about",
+    url: "https://www.apexalpha.fun/about",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us | APEX ALPHA Sovereign Suite",
+    description: "Discover the core mission, institutional vision, and values behind APEX ALPHA.",
   }
 };
 

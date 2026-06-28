@@ -3,6 +3,26 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: "/privacy-policy",
+        destination: "/privacy",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "apexalpha.fun",
+          },
+        ],
+        destination: "https://www.apexalpha.fun/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     // Next.js Route Handlers (e.g. app/api/market/price/route.js) take
     // precedence over rewrites. Only unmatched /api/* paths proxy to Express.

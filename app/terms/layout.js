@@ -4,8 +4,13 @@ export const metadata = {
   openGraph: {
     title: "Terms & Conditions | APEX ALPHA",
     description: "Review the platform usage rules, user responsibilities, intellectual property rules, and liability limitations.",
-    url: "https://apexalpha.io/terms",
+    url: "https://www.apexalpha.fun/terms",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms & Conditions | APEX ALPHA",
+    description: "Review the platform usage rules, user responsibilities, intellectual property rules, and liability limitations.",
   }
 };
 
