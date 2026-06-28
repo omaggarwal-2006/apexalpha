@@ -117,6 +117,7 @@ export default function Navbar() {
             <Link href="/portfolio" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Vault</Link>
             <Link href="/audit" className="text-[#f0c040] hover:brightness-125 transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Audit</Link>
             <Link href="/partner" className="text-[#f0c040] hover:brightness-125 transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Partner</Link>
+            <Link href="/blog" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Blog</Link>
             <div className="h-5 w-px bg-white/10 mx-2"></div>
             
             {/* Sovereign Soundscapes Focus Synth Toggle */}
@@ -157,6 +158,7 @@ export default function Navbar() {
           </>
         ) : (
           <>
+            <Link href="/blog" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em] mr-4">Blog</Link>
             <Link href="/login" className="text-white/60 hover:text-white transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Log In</Link>
             <Link href="/signup" className="glass-panel text-white px-8 py-2.5 font-header font-black text-[10px] uppercase tracking-[0.2em] transition-all border-[#f0c040]/30 hover:border-[#f0c040]">Sign Up</Link>
           </>

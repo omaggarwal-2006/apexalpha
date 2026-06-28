@@ -251,9 +251,11 @@ export default function LandingPage() {
         </motion.div>
       </motion.div>
 
-      <div className="fixed bottom-4 left-0 right-0 flex flex-col items-center gap-2 z-50">
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[9px] font-mono text-gray-500 uppercase tracking-widest px-4">
+      <div className="fixed bottom-3 left-0 right-0 flex flex-col items-center gap-1.5 z-50">
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-0.5 text-[9px] font-mono text-gray-500 uppercase tracking-widest px-4">
           <Link href="/about" className="hover:text-[#f0c040] transition-colors">About</Link>
+          <span>|</span>
+          <Link href="/blog" className="hover:text-[#f0c040] transition-colors">Blog</Link>
           <span>|</span>
           <Link href="/contact" className="hover:text-[#f0c040] transition-colors">Contact</Link>
           <span>|</span>
@@ -267,7 +269,10 @@ export default function LandingPage() {
           <span>|</span>
           <Link href="/trust" className="hover:text-[#f0c040] transition-colors">Trust</Link>
         </div>
-        <div className="text-[8px] font-mono font-black uppercase tracking-[0.6em] text-gray-700 opacity-40 select-none">
+        <p className="text-[7.5px] font-mono text-gray-600 max-w-[600px] text-center px-4 leading-normal uppercase">
+          Disclaimer: APEX ALPHA is an educational trading simulator. Virtual results do not correlate with real brokerage outcomes. No financial advice.
+        </p>
+        <div className="text-[8px] font-mono font-black uppercase tracking-[0.6em] text-gray-700 opacity-30 select-none">
           System Protocol: Sovereign Elite Tier // Access Level 10
         </div>
       </div>
