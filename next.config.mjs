@@ -10,17 +10,6 @@ const nextConfig = {
         destination: "/privacy",
         permanent: true,
       },
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "apexalpha.fun",
-          },
-        ],
-        destination: "https://www.apexalpha.fun/:path*",
-        permanent: true,
-      },
     ];
   },
   async rewrites() {
