@@ -1,16 +1,18 @@
 # APEX ALPHA: Institutional Educational & Proprietary Trading Suite
 
-**Apex Alpha** is a state-of-the-art, high-fidelity institutional simulation and proprietary trading academy desk. Engineered in Next.js 14 (App Router) and structured with a strict, hyper-premium **Sovereign Elite (Amber-on-Charcoal)** aesthetic system, Apex Alpha is designed to groom speculators in technical execution, quantitative analysis, behavioral risk control, and algorithmic operations.
+**Apex Alpha** is a state-of-the-art, high-fidelity institutional simulation and proprietary trading academy desk. Engineered in Next.js 16 (App Router) and structured with a strict, hyper-premium **Sovereign Elite (Amber-on-Charcoal)** aesthetic system, Apex Alpha is designed to groom speculators in technical execution, quantitative analysis, behavioral risk control, and algorithmic operations.
+
+Live version: [https://apexalpha.fun](https://apexalpha.fun)
 
 ---
 
 ## 🌟 Core Architecture & Feature Matrix
 
 ### 🧠 1. Heuristic Sentinel Engine & Overlays
-Located inside [patterns.js](file:///Users/raghavdua/Desktop/apexalpha/utils/patterns.js) and [AlphaSentinel.jsx](file:///Users/raghavdua/Desktop/apexalpha/components/AlphaSentinel.jsx), the Sentinel is a client-side cognitive model running on local $OHLC$ mathematical arrays:
-* **Pattern Recognition Engine**: Real-time client-side math detects Single (*Hammer*, *Doji*, *Marubozu*), Double (*Bullish/Bearish Engulfing*, *Tweezer Tops/Bottoms*), and Triple (*Morning Star*, *Evening Star*) candlestick formulations.
-* **Support & Resistance Locator**: Hardcoded algorithmic mapping analyzing peak distribution densities of local price wicks to render dynamic S&R boundary overlays.
-* **Tactical Briefing & Timeframes**: Propagated via centralized state from the trade floor [page.js](file:///Users/raghavdua/Desktop/apexalpha/app/trade/page.js), the dashboard switches its tactical educational instruction sets and briefings automatically as timeframes change from 1m (scalping parameters) to 1D (positional distribution).
+Located inside the codebase under `utils/patterns.js` and `components/AlphaSentinel.jsx`, the Sentinel is a client-side cognitive model running on local $OHLC$ mathematical arrays:
+* **Pattern Recognition Engine**: Real-time client-side math detects Single (*Hammer*, *Doji*, *Marubozu*), Double (*Bullish/Bearish Engulfing*, *Tweezer Tops/Bottoms*), and Triple (*Morning Star*, *Evening Star*) candlestick formations.
+* **Support & Resistance Locator**: Algorithmic mapping analyzing peak distribution densities of local price wicks to render dynamic S&R boundary overlays.
+* **Tactical Briefing & Timeframes**: Propagated via centralized state from the trade floor `app/trade/page.js`, the dashboard switches its tactical educational instruction sets and briefings automatically as timeframes change from 1m (scalping parameters) to 1D (positional distribution).
 
 ### 📊 2. Strategic Post-Mortem AI Audit Room (`/audit`)
 A dual-panel forensic mentorship terminal designed to review local paper trades:
@@ -31,7 +33,7 @@ Includes a dedicated **Quests & Tasks Tab** and **Sovereign Rank Perks Grid** on
 ## 📂 Project Structure
 
 ```bash
-├── app/                  # Next.js 14 App Router Page Components
+├── app/                  # Next.js App Router Page Components
 │   ├── audit/            # AI Mentor Room & Forensic Audit Suite
 │   ├── performance/      # Performance DNA & Cumulative Yield Curve
 │   ├── profile/          # Private Profile Command Center, Quests, & Perks Grid
@@ -55,8 +57,8 @@ Includes a dedicated **Quests & Tasks Tab** and **Sovereign Rank Perks Grid** on
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/raghavdua2006/Alpha-apex.git
-   cd Alpha-apex
+   git clone https://github.com/omaggarwal-2006/apexalpha.git
+   cd apexalpha
    ```
 
 2. **Install Dependencies**:
@@ -72,12 +74,11 @@ Includes a dedicated **Quests & Tasks Tab** and **Sovereign Rank Perks Grid** on
 4. **Run the Backend Services** (for persistent accounts, optional):
    ```bash
    cd backend
-   npm run dev
    ```
 
 ---
 
 ## 📊 Connecting Power BI (Strategic Audit Linkage)
-For advanced quantitative reporting, traders can export their local trade ledger as a structured CSV via the **Sovereign Vault (`/portfolio`)** and load it into **Power BI Desktop (Laptop 2)** to run complete multi-dimensional risk audits. 
+For advanced quantitative reporting, traders can export their local trade ledger as a structured CSV via the **Sovereign Vault (`/portfolio`)** and load it into **Power BI Desktop** to run complete multi-dimensional risk audits. 
 
-For step-by-step setup, refer to the [Power BI Integration Guide](file:///Users/raghavdua/Desktop/apexalpha/docs/PowerBI_Guide.md).
+For step-by-step setup, refer to the integration guides under the `docs/` directory.
