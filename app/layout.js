@@ -5,7 +5,7 @@ import ClientSetup from "@/components/ClientSetup";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
-  metadataBase: new URL("https://www.apexalpha.fun"),
+  metadataBase: new URL("https://apexalpha.fun"),
   title: {
     default: "APEX ALPHA | Sovereign Elite Tier",
     template: "%s | APEX ALPHA",
@@ -14,7 +14,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.apexalpha.fun",
+    url: "https://apexalpha.fun",
     siteName: "APEX ALPHA",
   },
   twitter: {
