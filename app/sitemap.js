@@ -1,5 +1,5 @@
 export default async function sitemap() {
-  const baseUrl = "https://www.apexalpha.fun";
+  const baseUrl = "https://apexalpha.fun";
 
   // Public pages and static blog paths specified by AdSense requirements
   const publicRoutes = [
@@ -14,11 +14,11 @@ export default async function sitemap() {
     "/news",
     "/learn",
     "/blog",
-    "/blog/candlestick-charts-guide",
-    "/blog/risk-management-in-trading",
-    "/blog/trading-psychology-rules",
-    "/blog/what-is-order-flow-trading",
-    "/blog/what-is-paper-trading",
+    "/blog/candlestick-patterns",
+    "/blog/risk-management",
+    "/blog/sharpe-ratio",
+    "/blog/position-sizing",
+    "/blog/market-heuristics",
   ];
 
   return publicRoutes.map((route) => {
