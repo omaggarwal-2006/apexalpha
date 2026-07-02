@@ -17,6 +17,9 @@
   --font-header: 'Orbitron', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-body: 'Inter', sans-serif;
+
+  --gold-primary: #f0c040;
+  --gold-bright: #ffdf7a;
 }
 
 * {
