@@ -6,6 +6,9 @@ import { BookOpen, Calendar, User, ArrowRight } from "lucide-react";
 export const metadata = {
   title: "APEX ALPHA Academy | Quantitative & Trading Blog",
   description: "Explore in-depth articles on technical analysis, market heuristics, risk management, and quantitative finance. Curated by the Apex Alpha research desk.",
+  alternates: {
+    canonical: "https://apexalpha.fun/blog",
+  },
 };
 
 export default function BlogListingPage() {
