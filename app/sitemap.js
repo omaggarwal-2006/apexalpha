@@ -19,6 +19,12 @@ export default async function sitemap() {
     "/blog/sharpe-ratio",
     "/blog/position-sizing",
     "/blog/market-heuristics",
+    "/blog/order-book-trading",
+    "/blog/paper-trading-simulation",
+    "/blog/portfolio-optimization",
+    "/blog/algorithmic-backtesting",
+    "/blog/options-delta-gamma",
+    "/blog/market-microstructure",
   ];
 
   return publicRoutes.map((route) => {
