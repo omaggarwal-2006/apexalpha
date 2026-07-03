@@ -1,10 +1,13 @@
 export const metadata = {
+  alternates: {
+    canonical: "https://apexalpha.fun/about",
+  },
   title: "About Us | APEX ALPHA",
   description: "Discover the core mission, institutional vision, and values behind APEX ALPHA, the premier sovereign quantitative simulation suite for elite speculators.",
   openGraph: {
     title: "About Us | APEX ALPHA Sovereign Suite",
     description: "Discover the core mission, institutional vision, and values behind APEX ALPHA.",
-    url: "https://www.apexalpha.fun/about",
+    url: "https://apexalpha.fun/about",
     type: "website",
   },
   twitter: {
