@@ -6,6 +6,9 @@ import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata = {
   metadataBase: new URL("https://apexalpha.fun"),
+  alternates: {
+    canonical: "https://apexalpha.fun",
+  },
   title: {
     default: "APEX ALPHA | Sovereign Elite Tier",
     template: "%s | APEX ALPHA",
