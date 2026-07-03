@@ -19,6 +19,9 @@ export async function generateMetadata({ params }) {
   return {
     title: `${post.title} | APEX ALPHA Blog`,
     description: post.summary,
+    alternates: {
+      canonical: `https://apexalpha.fun/blog/${post.slug}`,
+    },
   };
 }
 
