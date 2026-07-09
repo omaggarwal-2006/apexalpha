@@ -25,6 +25,10 @@ export default async function sitemap() {
     "/blog/algorithmic-backtesting",
     "/blog/options-delta-gamma",
     "/blog/market-microstructure",
+    "/blog/behavioral-finance",
+    "/blog/quantitative-execution",
+    "/blog/statistical-arbitrage",
+    "/blog/risk-parity-model",
   ];
 
   return publicRoutes.map((route) => {
