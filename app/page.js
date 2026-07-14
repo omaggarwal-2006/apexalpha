@@ -91,7 +91,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#020205] text-white overflow-hidden relative selection:bg-[#f0c040]/30 selection:text-white font-body">
+    <div className="min-h-screen flex flex-col items-center justify-between bg-[#020205] text-white overflow-y-auto relative selection:bg-[#f0c040]/30 selection:text-white font-body">
       
       {/* 3D Depth: Parallax Starfield */}
       <div className="absolute inset-0 z-0">
@@ -174,85 +174,89 @@ export default function LandingPage() {
         </div>
       </motion.div>
 
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="text-center max-w-5xl px-6 relative z-10"
-      >
-        <motion.div variants={itemVariants} className="mb-12">
-          <div className="inline-flex items-center gap-3 px-4 py-1.5 glass-panel mb-12">
-            <Zap size={14} className="text-[#f0c040] fill-[#f0c040]/30" />
-            <span className="text-[10px] font-header font-black uppercase tracking-[0.3em] text-[#f0c040]">Quantum Ledger Active v9.0</span>
-          </div>
+      {/* Main Vertically Centered Wrapper */}
+      <div className="flex-1 w-full flex flex-col items-center justify-center py-28 z-10">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="text-center max-w-5xl px-6"
+        >
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 glass-panel mb-12">
+              <Zap size={14} className="text-[#f0c040] fill-[#f0c040]/30" />
+              <span className="text-[10px] font-header font-black uppercase tracking-[0.3em] text-[#f0c040]">Quantum Ledger Active v9.0</span>
+            </div>
 
-          <h1 className="text-8xl md:text-[160px] font-header font-black text-white mb-6 leading-[0.8] tracking-[-5px]">
-            APEX ALPHA
-          </h1>
-          <div className="text-2xl md:text-5xl font-header font-black uppercase tracking-[0.2em] mb-12">
-            <span className="shimmer-text">NEW GEN</span>
-          </div>
-          
-          <p className="text-lg md:text-xl text-gray-400 mb-16 max-w-2xl mx-auto font-body font-medium leading-relaxed opacity-80">
-            Institutional-grade liquidity simulations for the sovereign elite. 
-            Calibrate your edge with sub-millisecond neural intelligence.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <div className="relative group">
-               {/* Neural Pulse Ring */}
-               <motion.div 
-                 animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
-                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                 className="absolute inset-0 rounded-none border border-[#f0c040] blur-xl -m-4 pointer-events-none"
-               />
-               
-               <MagneticButton 
-                 href="/signup"
-                 className="px-12 py-5 bg-[#f0c040] text-black font-header font-black rounded-none transition-all shadow-[0_30px_60px_rgba(240,192,64,0.3)] overflow-hidden group border border-[#f0c040] relative"
-               >
-                  <span className="relative z-10 flex items-center gap-3 uppercase tracking-widest text-sm">
-                    Initialize Terminal <TrendingUp size={18} />
-                  </span>
-                  {/* Shimmer Effect */}
-                  <motion.div 
-                    animate={{ x: ['-100%', '200%'] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-20 pointer-events-none"
-                  />
-                  <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 origin-bottom" />
-               </MagneticButton>
+            <h1 className="text-8xl md:text-[160px] font-header font-black text-white mb-6 leading-[0.8] tracking-[-5px]">
+              APEX ALPHA
+            </h1>
+            <div className="text-2xl md:text-5xl font-header font-black uppercase tracking-[0.2em] mb-12">
+              <span className="shimmer-text">NEW GEN</span>
             </div>
             
-            <MagneticButton 
-              href="/login"
-              className="px-12 py-5 bg-transparent text-white font-header font-black rounded-none transition-all border border-white/20 glass-panel uppercase tracking-widest text-sm"
-            >
-              Authenticate
-            </MagneticButton>
-          </div>
-        </motion.div>
+            <p className="text-lg md:text-xl text-gray-400 mb-16 max-w-2xl mx-auto font-body font-medium leading-relaxed opacity-80">
+              Institutional-grade liquidity simulations for the sovereign elite. 
+              Calibrate your edge with sub-millisecond neural intelligence.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <div className="relative group">
+                 {/* Neural Pulse Ring */}
+                 <motion.div 
+                   animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
+                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                   className="absolute inset-0 rounded-none border border-[#f0c040] blur-xl -m-4 pointer-events-none"
+                 />
+                 
+                 <MagneticButton 
+                   href="/signup"
+                   className="px-12 py-5 bg-[#f0c040] text-black font-header font-black rounded-none transition-all shadow-[0_30px_60px_rgba(240,192,64,0.3)] overflow-hidden group border border-[#f0c040] relative"
+                 >
+                    <span className="relative z-10 flex items-center gap-3 uppercase tracking-widest text-sm">
+                      Initialize Terminal <TrendingUp size={18} />
+                    </span>
+                    {/* Shimmer Effect */}
+                    <motion.div 
+                      animate={{ x: ['-100%', '200%'] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 z-20 pointer-events-none"
+                    />
+                    <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 origin-bottom" />
+                 </MagneticButton>
+              </div>
+              
+              <MagneticButton 
+                href="/login"
+                className="px-12 py-5 bg-transparent text-white font-header font-black rounded-none transition-all border border-white/20 glass-panel uppercase tracking-widest text-sm"
+              >
+                Authenticate
+              </MagneticButton>
+            </div>
+          </motion.div>
 
-        {/* Feature Grid Staggered */}
-        <motion.div variants={itemVariants} className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-1 px-8">
-           {[
-             { icon: Zap, title: "Nano-Sec Execution", desc: "Liquid architecture with sub-1ms trade clearing simulation." },
-             { icon: Activity, title: "Neural Synthesis", desc: "AI-driven order flow visualizations and sentiment heatmaps." },
-             { icon: ShieldCheck, title: "Vanguard Security", desc: "Military-grade encryption for proprietary strategy data." }
-           ].map((feature, idx) => (
-             <div key={idx} className="glass-panel p-8 text-left border-white/5 hover:border-[#f0c040]/30 transition-colors">
-                <div className="w-10 h-10 rounded-none border border-[#f0c040]/30 flex items-center justify-center text-[#f0c040] mb-6">
-                   <feature.icon size={20} />
-                </div>
-                <h3 className="text-white font-header font-black uppercase text-xs tracking-[0.2em] mb-3">{feature.title}</h3>
-                <p className="text-gray-500 text-[11px] leading-relaxed font-body">{feature.desc}</p>
-             </div>
-           ))}
+          {/* Feature Grid Staggered */}
+          <motion.div variants={itemVariants} className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-1 px-8">
+             {[
+               { icon: Zap, title: "Nano-Sec Execution", desc: "Liquid architecture with sub-1ms trade clearing simulation." },
+               { icon: Activity, title: "Neural Synthesis", desc: "AI-driven order flow visualizations and sentiment heatmaps." },
+               { icon: ShieldCheck, title: "Vanguard Security", desc: "Military-grade encryption for proprietary strategy data." }
+             ].map((feature, idx) => (
+               <div key={idx} className="glass-panel p-8 text-left border-white/5 hover:border-[#f0c040]/30 transition-colors">
+                  <div className="w-10 h-10 rounded-none border border-[#f0c040]/30 flex items-center justify-center text-[#f0c040] mb-6">
+                     <feature.icon size={20} />
+                  </div>
+                  <h3 className="text-white font-header font-black uppercase text-xs tracking-[0.2em] mb-3">{feature.title}</h3>
+                  <p className="text-gray-500 text-[11px] leading-relaxed font-body">{feature.desc}</p>
+               </div>
+             ))}
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
 
-      <div className="fixed bottom-3 left-0 right-0 flex flex-col items-center gap-1.5 z-50">
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-0.5 text-[9px] font-mono text-gray-500 uppercase tracking-widest px-4">
+      {/* Static Footer */}
+      <footer className="w-full pb-8 pt-12 flex flex-col items-center gap-2 z-50 bg-black/20 border-t border-white/5 mt-auto">
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[9px] font-mono text-gray-500 uppercase tracking-widest px-4">
           <Link href="/about" className="hover:text-[#f0c040] transition-colors">About</Link>
           <span>|</span>
           <Link href="/blog" className="hover:text-[#f0c040] transition-colors">Blog</Link>
@@ -275,9 +279,7 @@ export default function LandingPage() {
         <div className="text-[8px] font-mono font-black uppercase tracking-[0.6em] text-gray-700 opacity-30 select-none">
           System Protocol: Sovereign Elite Tier // Access Level 10
         </div>
-      </div>
-
-
+      </footer>
 
       {/* Global Scanline Overlay */}
       <div className="fixed inset-0 pointer-events-none z-[100] scanlines" />
