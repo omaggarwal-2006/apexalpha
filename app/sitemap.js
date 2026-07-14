@@ -29,6 +29,11 @@ export default async function sitemap() {
     "/blog/quantitative-execution",
     "/blog/statistical-arbitrage",
     "/blog/risk-parity-model",
+    "/blog/options-implied-volatility",
+    "/blog/high-frequency-market-making",
+    "/blog/portfolio-drawdown-modeling",
+    "/blog/machine-learning-finance",
+    "/blog/interest-rate-derivatives",
   ];
 
   return publicRoutes.map((route) => {
