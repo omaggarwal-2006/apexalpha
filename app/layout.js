@@ -34,6 +34,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning={true} className="h-[100dvh] antialiased selection:bg-[#f0c040]/30 selection:text-white">
       <head>
+        {/* Google AdSense: account verification meta tag */}
+        <meta name="google-adsense-account" content="ca-pub-3740887631837879" />
+        {/* Google AdSense: page-level ads script */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3740887631837879"
