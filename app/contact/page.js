@@ -94,14 +94,14 @@ export default function ContactPage() {
               <span className="text-[9px] font-mono text-[#f0c040] tracking-widest uppercase block mb-1">GENERAL ENQUIRIES & SUPPORT</span>
               <div className="flex items-center gap-2 text-white font-mono text-[11px] font-bold">
                 <Mail size={12} className="text-gray-400" />
-                <a href="mailto:support@apexalpha.io" className="hover:text-[#f0c040] transition">support@apexalpha.io</a>
+                <a href="mailto:support@apexalpha.fun" className="hover:text-[#f0c040] transition">support@apexalpha.fun</a>
               </div>
             </div>
             <div className="glass-panel p-6 border border-white/5 bg-black/40">
               <span className="text-[9px] font-mono text-[#f0c040] tracking-widest uppercase block mb-1">PARTNERSHIP & WHITE LABELS</span>
               <div className="flex items-center gap-2 text-white font-mono text-[11px] font-bold">
                 <Mail size={12} className="text-gray-400" />
-                <a href="mailto:syndicate@apexalpha.io" className="hover:text-[#f0c040] transition">syndicate@apexalpha.io</a>
+                <a href="mailto:syndicate@apexalpha.fun" className="hover:text-[#f0c040] transition">syndicate@apexalpha.fun</a>
               </div>
             </div>
           </div>
