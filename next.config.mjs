@@ -10,6 +10,13 @@ const nextConfig = {
         destination: "/privacy",
         permanent: true,
       },
+      // Fix: www → apex domain to prevent duplicate canonical issue
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.apexalpha.fun" }],
+        destination: "https://apexalpha.fun/:path*",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
