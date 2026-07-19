@@ -1,4 +1,28 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
+Allow: /about
+Allow: /contact
+Allow: /terms
+Allow: /disclaimer
+Allow: /privacy
+Allow: /cookies
+Allow: /trust
+Allow: /news
+Allow: /learn
+Allow: /blog
+Allow: /blog/
+
+Disallow: /admin
+Disallow: /algo
+Disallow: /audit
+Disallow: /ib
+Disallow: /login
+Disallow: /market
+Disallow: /partner
+Disallow: /performance
+Disallow: /portfolio
+Disallow: /profile
+Disallow: /signup
+Disallow: /trade
 
 Sitemap: https://apexalpha.fun/sitemap.xml
