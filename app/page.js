@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
 import { TrendingUp, ShieldCheck, Zap, Activity, Globe } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 // ─── Magnetic Button Component ───────────────────────────
 function MagneticButton({ children, className, href }) {
@@ -174,6 +175,11 @@ export default function LandingPage() {
         </div>
       </motion.div>
 
+      {/* Header Navigation */}
+      <div className="w-full pt-14 px-8 pb-4 border-b border-white/5 bg-black/60 backdrop-blur-2xl z-40 relative">
+        <Navbar />
+      </div>
+
       {/* Main Vertically Centered Wrapper */}
       <div className="flex-1 w-full flex flex-col items-center justify-center py-28 z-10">
         <motion.div 
@@ -258,6 +264,10 @@ export default function LandingPage() {
       <footer className="w-full pb-8 pt-12 flex flex-col items-center gap-2 z-50 bg-black/20 border-t border-white/5 mt-auto">
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-[9px] font-mono text-gray-500 uppercase tracking-widest px-4">
           <Link href="/about" className="hover:text-[#f0c040] transition-colors">About</Link>
+          <span>|</span>
+          <Link href="/learn" className="hover:text-[#f0c040] transition-colors">Learn</Link>
+          <span>|</span>
+          <Link href="/news" className="hover:text-[#f0c040] transition-colors">News</Link>
           <span>|</span>
           <Link href="/blog" className="hover:text-[#f0c040] transition-colors">Blog</Link>
           <span>|</span>

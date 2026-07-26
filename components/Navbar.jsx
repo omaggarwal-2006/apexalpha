@@ -158,9 +158,15 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link href="/blog" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em] mr-4">Blog</Link>
+            <Link href="/about" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">About</Link>
+            <Link href="/learn" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Learn</Link>
+            <Link href="/news" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">News</Link>
+            <Link href="/blog" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Blog</Link>
+            <Link href="/trust" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Trust</Link>
+            <Link href="/contact" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Contact</Link>
+            <div className="h-5 w-px bg-white/10 mx-2"></div>
             <Link href="/login" className="text-white/60 hover:text-white transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Log In</Link>
-            <Link href="/signup" className="glass-panel text-white px-8 py-2.5 font-header font-black text-[10px] uppercase tracking-[0.2em] transition-all border-[#f0c040]/30 hover:border-[#f0c040]">Sign Up</Link>
+            <Link href="/signup" className="glass-panel text-white px-6 py-2.5 font-header font-black text-[10px] uppercase tracking-[0.2em] transition-all border-[#f0c040]/30 hover:border-[#f0c040]">Sign Up</Link>
           </>
         )}
       </div>
