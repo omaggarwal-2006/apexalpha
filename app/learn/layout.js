@@ -1,13 +1,13 @@
-﻿export const metadata = {
+export const metadata = {
   alternates: {
-    canonical: "https://apexalpha.fun/learn",
+    canonical: "https://www.apexalpha.fun/learn",
   },
-  title: "Apex Trading Academy & Masterclass | APEX ALPHA",
-  description: "Accelerate your trading velocity. Learn advanced technical analysis, risk management, order flow trading, options dynamics, and quantitative modeling.",
+  title: "APEX Academy | Quantitative Market Education & Courses",
+  description: "Master financial speculation, quantitative heuristics, risk architecture, and algorithmic execution through structured interactive modules.",
   openGraph: {
-    title: "Apex Trading Academy & Masterclass | APEX ALPHA",
-    description: "Accelerate your trading velocity. Learn advanced technical analysis, risk management, options dynamics, and quantitative modeling.",
-    url: "https://apexalpha.fun/learn",
+    title: "APEX Academy | Quantitative Education",
+    description: "Master financial speculation, quantitative heuristics, risk architecture, and algorithmic execution.",
+    url: "https://www.apexalpha.fun/learn",
     type: "website",
   },
   twitter: {

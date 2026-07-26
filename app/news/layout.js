@@ -1,13 +1,13 @@
-﻿export const metadata = {
+export const metadata = {
   alternates: {
-    canonical: "https://apexalpha.fun/news",
+    canonical: "https://www.apexalpha.fun/news",
   },
   title: "Real-Time Terminal Market News & Analytics | APEX ALPHA",
   description: "Monitor real-time institutional intelligence feeds, high-impact block sweeps, sentiment indices, and tactical market insights curated by the Apex Alpha research desk.",
   openGraph: {
     title: "Terminal Market News & Analytics | APEX ALPHA",
     description: "Monitor real-time institutional intelligence feeds, high-impact block sweeps, sentiment indices, and tactical market insights.",
-    url: "https://apexalpha.fun/news",
+    url: "https://www.apexalpha.fun/news",
     type: "website",
   },
   twitter: {

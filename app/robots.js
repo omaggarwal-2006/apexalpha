@@ -1,0 +1,38 @@
+export default function robots() {
+  return {
+    rules: [
+      {
+        userAgent: "*",
+        allow: [
+          "/",
+          "/about",
+          "/contact",
+          "/terms",
+          "/disclaimer",
+          "/privacy",
+          "/cookies",
+          "/trust",
+          "/news",
+          "/learn",
+          "/blog",
+          "/blog/*",
+        ],
+        disallow: [
+          "/admin",
+          "/algo",
+          "/audit",
+          "/ib",
+          "/login",
+          "/market",
+          "/partner",
+          "/performance",
+          "/portfolio",
+          "/profile",
+          "/signup",
+          "/trade",
+        ],
+      },
+    ],
+    sitemap: "https://www.apexalpha.fun/sitemap.xml",
+  };
+}

@@ -1,8 +1,10 @@
-export default async function sitemap() {
-  const baseUrl = "https://apexalpha.fun";
+import { BLOG_POSTS } from "@/lib/blogData";
 
-  // Public pages and static blog paths specified by AdSense requirements
-  const publicRoutes = [
+export default async function sitemap() {
+  const baseUrl = "https://www.apexalpha.fun";
+
+  // Public static routes
+  const staticRoutes = [
     "",
     "/about",
     "/contact",
@@ -14,46 +16,22 @@ export default async function sitemap() {
     "/news",
     "/learn",
     "/blog",
-    "/blog/candlestick-patterns",
-    "/blog/risk-management",
-    "/blog/sharpe-ratio",
-    "/blog/position-sizing",
-    "/blog/market-heuristics",
-    "/blog/order-book-trading",
-    "/blog/paper-trading-simulation",
-    "/blog/portfolio-optimization",
-    "/blog/algorithmic-backtesting",
-    "/blog/options-delta-gamma",
-    "/blog/market-microstructure",
-    "/blog/behavioral-finance",
-    "/blog/quantitative-execution",
-    "/blog/statistical-arbitrage",
-    "/blog/risk-parity-model",
-    "/blog/options-implied-volatility",
-    "/blog/high-frequency-market-making",
-    "/blog/portfolio-drawdown-modeling",
-    "/blog/machine-learning-finance",
-    "/blog/interest-rate-derivatives",
+    "/blog/candlestick-charts-guide",
+    "/blog/risk-management-in-trading",
+    "/blog/trading-psychology-rules",
+    "/blog/what-is-order-flow-trading",
+    "/blog/what-is-paper-trading",
   ];
 
-  return publicRoutes.map((route) => {
-    // Define priorities for crawling relevance
+  const staticEntries = staticRoutes.map((route) => {
     let priority = 0.5;
-    if (route === "") {
-      priority = 1.0;
-    } else if (route === "/blog" || route === "/learn") {
-      priority = 0.8;
-    } else if (route.startsWith("/blog/")) {
-      priority = 0.7;
-    }
+    if (route === "") priority = 1.0;
+    else if (route === "/blog" || route === "/learn" || route === "/news") priority = 0.9;
+    else if (route.startsWith("/blog/")) priority = 0.8;
 
-    // Define change frequencies
     let changeFrequency = "monthly";
-    if (route === "" || route === "/blog" || route === "/news") {
-      changeFrequency = "daily";
-    } else if (route.startsWith("/blog/")) {
-      changeFrequency = "weekly";
-    }
+    if (route === "" || route === "/blog" || route === "/news") changeFrequency = "daily";
+    else if (route.startsWith("/blog/")) changeFrequency = "weekly";
 
     return {
       url: `${baseUrl}${route}`,
@@ -62,4 +40,14 @@ export default async function sitemap() {
       priority,
     };
   });
+
+  // Dynamic blog entries from BLOG_POSTS dataset (20+ comprehensive articles)
+  const dynamicBlogEntries = BLOG_POSTS.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date().toISOString().split("T")[0],
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
+  return [...staticEntries, ...dynamicBlogEntries];
 }

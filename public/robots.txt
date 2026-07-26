@@ -1,4 +1,4 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
 Allow: /about
 Allow: /contact
@@ -25,4 +25,4 @@ Disallow: /profile
 Disallow: /signup
 Disallow: /trade
 
-Sitemap: https://apexalpha.fun/sitemap.xml
+Sitemap: https://www.apexalpha.fun/sitemap.xml
