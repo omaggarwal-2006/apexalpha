@@ -57,23 +57,19 @@ export default function LandingPage() {
   const [stars, setStars] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-      setStars(Array.from({ length: 50 }).map(() => ({
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        width: `${Math.random() * 2}px`,
-        height: `${Math.random() * 2}px`,
-        boxShadow: `0 0 ${Math.random() * 5}px rgba(255, 255, 255, 0.5)`,
-        opacity: Math.random(),
-        scale: Math.random(),
-        duration: 2 + Math.random() * 3,
-        delay: Math.random() * 5
-      })));
-    }, 0);
+    setMounted(true);
+    setStars(Array.from({ length: 50 }).map(() => ({
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      width: `${Math.random() * 2}px`,
+      height: `${Math.random() * 2}px`,
+      boxShadow: `0 0 ${Math.random() * 5}px rgba(255, 255, 255, 0.5)`,
+      opacity: Math.random(),
+      scale: Math.random(),
+      duration: 2 + Math.random() * 3,
+      delay: Math.random() * 5
+    })));
   }, []);
-
-  if (!mounted) return null;
 
   const containerVariants = {
     hidden: { opacity: 0 },
