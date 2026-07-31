@@ -1,7 +1,4 @@
-export const dynamic = 'force-dynamic';
-
-export async function GET() {
-  const body = `User-agent: Mediapartners-Google
+User-agent: Mediapartners-Google
 Allow: /
 
 User-agent: Googlebot
@@ -34,12 +31,4 @@ Disallow: /profile
 Disallow: /signup
 Disallow: /trade
 
-Sitemap: https://apexalpha.fun/sitemap.xml`;
-
-  return new Response(body, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-    },
-  });
-}
+Sitemap: https://apexalpha.fun/sitemap.xml
