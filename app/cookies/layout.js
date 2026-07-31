@@ -1,13 +1,13 @@
 export const metadata = {
   alternates: {
-    canonical: "https://www.apexalpha.fun/cookies",
+    canonical: "https://apexalpha.fun/cookies",
   },
   title: "Cookie Policy | APEX ALPHA",
   description: "Learn how we utilize local cookies, browser storage trackers, and third-party advertising services.",
   openGraph: {
     title: "Cookie Policy | APEX ALPHA",
     description: "Learn how we utilize local cookies, browser storage trackers, and third-party advertising services.",
-    url: "https://www.apexalpha.fun/cookies",
+    url: "https://apexalpha.fun/cookies",
     type: "website",
   },
   twitter: {

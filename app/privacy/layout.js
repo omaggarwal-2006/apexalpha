@@ -1,13 +1,13 @@
 export const metadata = {
   alternates: {
-    canonical: "https://www.apexalpha.fun/privacy",
+    canonical: "https://apexalpha.fun/privacy",
   },
   title: "Privacy Policy | APEX ALPHA",
   description: "GDPR and Google AdSense compliant disclosures concerning user data, local storage metrics, and cookies.",
   openGraph: {
     title: "Privacy Policy | APEX ALPHA",
     description: "GDPR and Google AdSense compliant disclosures concerning user data, local storage metrics, and cookies.",
-    url: "https://www.apexalpha.fun/privacy",
+    url: "https://apexalpha.fun/privacy",
     type: "website",
   },
   twitter: {

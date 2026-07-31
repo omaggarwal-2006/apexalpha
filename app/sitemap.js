@@ -1,7 +1,7 @@
 import { BLOG_POSTS } from "@/lib/blogData";
 
 export default async function sitemap() {
-  const baseUrl = "https://www.apexalpha.fun";
+  const baseUrl = "https://apexalpha.fun";
 
   // Public static routes
   const staticRoutes = [

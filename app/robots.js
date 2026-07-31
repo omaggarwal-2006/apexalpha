@@ -33,6 +33,6 @@ export default function robots() {
         ],
       },
     ],
-    sitemap: "https://www.apexalpha.fun/sitemap.xml",
+    sitemap: "https://apexalpha.fun/sitemap.xml",
   };
 }

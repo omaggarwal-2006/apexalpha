@@ -1,13 +1,13 @@
 export const metadata = {
   alternates: {
-    canonical: "https://www.apexalpha.fun/learn",
+    canonical: "https://apexalpha.fun/learn",
   },
   title: "APEX Academy | Quantitative Market Education & Courses",
   description: "Master financial speculation, quantitative heuristics, risk architecture, and algorithmic execution through structured interactive modules.",
   openGraph: {
     title: "APEX Academy | Quantitative Education",
     description: "Master financial speculation, quantitative heuristics, risk architecture, and algorithmic execution.",
-    url: "https://www.apexalpha.fun/learn",
+    url: "https://apexalpha.fun/learn",
     type: "website",
   },
   twitter: {
