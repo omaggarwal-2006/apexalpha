@@ -180,6 +180,13 @@ export default function LandingPage() {
         <Navbar />
       </div>
 
+      {/* Prominent Educational Simulation Disclosure Banner */}
+      <div className="w-full bg-[#f0c040]/10 border-b border-[#f0c040]/30 py-2.5 px-6 text-center z-40 relative backdrop-blur-md">
+        <p className="text-[11px] md:text-xs font-mono font-semibold text-[#f0c040] tracking-wider uppercase">
+          ⚠️ Educational Disclosure: APEX ALPHA is an educational simulation & paper-trading platform. No real funds, live brokerage execution, or financial advice are involved.
+        </p>
+      </div>
+
       {/* Main Vertically Centered Wrapper */}
       <div className="flex-1 w-full flex flex-col items-center justify-center py-28 z-10">
         <motion.div 
@@ -283,8 +290,8 @@ export default function LandingPage() {
           <span>|</span>
           <Link href="/trust" className="hover:text-[#f0c040] transition-colors">Trust</Link>
         </div>
-        <p className="text-[7.5px] font-mono text-gray-600 max-w-[600px] text-center px-4 leading-normal uppercase">
-          Disclaimer: APEX ALPHA is an educational trading simulator. Virtual results do not correlate with real brokerage outcomes. No financial advice.
+        <p className="text-[9px] font-mono text-gray-400 max-w-[700px] text-center px-4 leading-normal uppercase">
+          Disclaimer: APEX ALPHA is an educational simulation platform. All simulations, market paper data, and analytics are for educational and research purposes only. No real funds, live trades, or financial advice are involved.
         </p>
         <div className="text-[8px] font-mono font-black uppercase tracking-[0.6em] text-gray-700 opacity-30 select-none">
           System Protocol: Sovereign Elite Tier // Access Level 10

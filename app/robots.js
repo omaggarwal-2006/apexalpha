@@ -2,6 +2,14 @@ export default function robots() {
   return {
     rules: [
       {
+        userAgent: "Mediapartners-Google",
+        allow: "/",
+      },
+      {
+        userAgent: "Googlebot",
+        allow: "/",
+      },
+      {
         userAgent: "*",
         allow: [
           "/",

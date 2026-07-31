@@ -1,3 +1,9 @@
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
 User-agent: *
 Allow: /
 Allow: /about
@@ -25,4 +31,4 @@ Disallow: /profile
 Disallow: /signup
 Disallow: /trade
 
-Sitemap: https://www.apexalpha.fun/sitemap.xml
+Sitemap: https://apexalpha.fun/sitemap.xml
