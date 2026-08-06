@@ -13,20 +13,16 @@ export default async function sitemap() {
     "/privacy",
     "/cookies",
     "/trust",
+    "/faq",
     "/news",
     "/learn",
     "/blog",
-    "/blog/candlestick-charts-guide",
-    "/blog/risk-management-in-trading",
-    "/blog/trading-psychology-rules",
-    "/blog/what-is-order-flow-trading",
-    "/blog/what-is-paper-trading",
   ];
 
   const staticEntries = staticRoutes.map((route) => {
     let priority = 0.5;
     if (route === "") priority = 1.0;
-    else if (route === "/blog" || route === "/learn" || route === "/news") priority = 0.9;
+    else if (route === "/blog" || route === "/learn" || route === "/news" || route === "/faq") priority = 0.9;
     else if (route.startsWith("/blog/")) priority = 0.8;
 
     let changeFrequency = "monthly";
@@ -41,7 +37,7 @@ export default async function sitemap() {
     };
   });
 
-  // Dynamic blog entries from BLOG_POSTS dataset (20+ comprehensive articles)
+  // Dynamic blog entries from BLOG_POSTS dataset (all 30 comprehensive articles)
   const dynamicBlogEntries = BLOG_POSTS.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date().toISOString().split("T")[0],

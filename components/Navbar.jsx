@@ -162,6 +162,7 @@ export default function Navbar() {
             <Link href="/learn" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Learn</Link>
             <Link href="/news" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">News</Link>
             <Link href="/blog" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Blog</Link>
+            <Link href="/faq" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">FAQ</Link>
             <Link href="/trust" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Trust</Link>
             <Link href="/contact" className="text-white/60 hover:text-[#f0c040] transition font-header font-black text-[10px] uppercase tracking-[0.2em]">Contact</Link>
             <div className="h-5 w-px bg-white/10 mx-2"></div>
