@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/components/Navbar";
+import BlogNavbar from "@/components/BlogNavbar";
 import { motion } from "framer-motion";
 import { HelpCircle, Terminal, ShieldCheck, Zap, BookOpen, Layers, Lock, Compass } from "lucide-react";
 
@@ -69,7 +69,7 @@ export default function FAQPage() {
       
       {/* Navbar */}
       <div className="px-8 py-4 border-b border-white/5 bg-black/60 backdrop-blur-2xl z-50">
-        <Navbar />
+        <BlogNavbar />
       </div>
 
       {/* Main Content */}

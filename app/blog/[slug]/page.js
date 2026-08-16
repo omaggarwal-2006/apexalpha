@@ -1,5 +1,5 @@
 import { BLOG_POSTS } from "@/lib/blogData";
-import Navbar from "@/components/Navbar";
+import BlogNavbar from "@/components/BlogNavbar";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Calendar, User, ArrowLeft, BookOpen } from "lucide-react";
@@ -180,7 +180,7 @@ export default async function BlogPostPage({ params }) {
 
       {/* Navbar */}
       <div className="px-8 py-4 border-b border-white/5 bg-black/60 backdrop-blur-2xl z-50">
-        <Navbar />
+        <BlogNavbar />
       </div>
 
       {/* Main Content */}

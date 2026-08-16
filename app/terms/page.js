@@ -1,5 +1,5 @@
 "use client";
-import Navbar from "@/components/Navbar";
+import BlogNavbar from "@/components/BlogNavbar";
 import { motion } from "framer-motion";
 import { Terminal, Scale, ShieldAlert, Cpu } from "lucide-react";
 
@@ -25,7 +25,7 @@ export default function TermsPage() {
       
       {/* Navbar */}
       <div className="px-8 py-4 border-b border-white/5 bg-black/60 backdrop-blur-2xl z-50">
-        <Navbar />
+        <BlogNavbar />
       </div>
 
       {/* Main Content */}

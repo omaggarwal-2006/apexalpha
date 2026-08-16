@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import BlogNavbar from "@/components/BlogNavbar";
 import { BLOG_POSTS } from "@/lib/blogData";
 import { BookOpen, Calendar, User, ArrowRight } from "lucide-react";
 
@@ -20,7 +20,7 @@ export default function BlogListingPage() {
 
       {/* Navbar wrapper */}
       <div className="px-8 py-4 border-b border-white/5 bg-black/60 backdrop-blur-2xl z-50">
-        <Navbar />
+        <BlogNavbar />
       </div>
 
       {/* Main Container */}
