@@ -34,17 +34,19 @@ export default async function BlogPostPage({ params }) {
     notFound();
   }
 
-  // A very basic markdown-to-HTML parser for safety and server component purity
+  // Robust markdown-to-HTML parser for server component purity
   const renderContent = (text) => {
+    if (!text) return null;
     return text.split('\n\n').map((paragraph, index) => {
       const trimmed = paragraph.trim();
       if (!trimmed) return null;
 
-      // Handle main headings (###)
-      if (trimmed.startsWith('### ')) {
+      // Handle main headings (# or ## or ###)
+      if (trimmed.startsWith('# ') || trimmed.startsWith('## ') || trimmed.startsWith('### ')) {
+        const cleanHeading = trimmed.replace(/^#{1,3}\s+/, '');
         return (
           <h3 key={index} className="text-lg md:text-xl font-header font-black text-white uppercase tracking-wider mt-8 mb-4 border-l-2 border-[#f0c040] pl-3">
-            {trimmed.replace('### ', '')}
+            {cleanHeading}
           </h3>
         );
       }
@@ -58,14 +60,58 @@ export default async function BlogPostPage({ params }) {
         );
       }
 
-      // Handle bullet points
-      if (trimmed.startsWith('* ')) {
+      // Handle Code blocks
+      if (trimmed.startsWith('```')) {
+        const codeLines = trimmed.split('\n');
+        const codeContent = codeLines.slice(1, codeLines[codeLines.length - 1].startsWith('```') ? -1 : undefined).join('\n');
+        return (
+          <pre key={index} className="bg-black/60 p-4 border border-white/10 rounded-sm font-mono text-[11px] md:text-xs text-gray-300 overflow-x-auto my-6 whitespace-pre leading-relaxed">
+            <code>{codeContent}</code>
+          </pre>
+        );
+      }
+
+      // Handle Markdown Tables
+      if (trimmed.includes('|') && trimmed.includes('\n|')) {
+        const rows = trimmed.split('\n').filter(r => r.trim().startsWith('|'));
+        if (rows.length >= 2) {
+          const headerCells = rows[0].split('|').map(c => c.trim()).filter(Boolean);
+          const dataRows = rows.slice(2); // Skip header and separator
+          return (
+            <div key={index} className="overflow-x-auto my-6 border border-white/10">
+              <table className="w-full text-left font-mono text-[11px] md:text-xs">
+                <thead className="bg-[#f0c040]/10 border-b border-white/10 text-[#f0c040] uppercase tracking-wider">
+                  <tr>
+                    {headerCells.map((cell, cIdx) => (
+                      <th key={cIdx} className="p-3 font-bold">{cell}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5 bg-black/40 text-gray-400">
+                  {dataRows.map((row, rIdx) => {
+                    const cells = row.split('|').map(c => c.trim()).filter(Boolean);
+                    return (
+                      <tr key={rIdx} className="hover:bg-white/5">
+                        {cells.map((cell, cIdx) => (
+                          <td key={cIdx} className="p-3">{cell}</td>
+                        ))}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+      }
+
+      // Handle Bullet points (* or -)
+      if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
         const items = trimmed.split('\n');
         return (
           <ul key={index} className="list-disc pl-6 my-4 space-y-2 text-xs md:text-sm font-mono text-gray-400 leading-relaxed">
             {items.map((item, itemIdx) => {
-              const cleanedItem = item.replace('* ', '');
-              // Check if contains bold text (e.g. **Text:**)
+              const cleanedItem = item.replace(/^[\*\-]\s+/, '');
               if (cleanedItem.includes('**')) {
                 const parts = cleanedItem.split('**');
                 return (
@@ -80,15 +126,34 @@ export default async function BlogPostPage({ params }) {
         );
       }
 
-      // Handle dividers
-      if (trimmed === '---') {
-        return <div key={index} className="h-px bg-white/5 my-8" />;
+      // Handle Numbered lists (1. 2. 3.)
+      if (/^\d+\.\s+/.test(trimmed)) {
+        const items = trimmed.split('\n');
+        return (
+          <ol key={index} className="list-decimal pl-6 my-4 space-y-2 text-xs md:text-sm font-mono text-gray-400 leading-relaxed">
+            {items.map((item, itemIdx) => {
+              const cleanedItem = item.replace(/^\d+\.\s+/, '');
+              if (cleanedItem.includes('**')) {
+                const parts = cleanedItem.split('**');
+                return (
+                  <li key={itemIdx}>
+                    {parts.map((part, partIdx) => partIdx % 2 === 1 ? <strong key={partIdx} className="text-white">{part}</strong> : part)}
+                  </li>
+                );
+              }
+              return <li key={itemIdx}>{cleanedItem}</li>;
+            })}
+          </ol>
+        );
       }
 
-      // Handle normal paragraphs (with support for inline bolding and LaTeX symbols)
+      // Handle Dividers
+      if (trimmed === '---') {
+        return <div key={index} className="h-px bg-white/10 my-8" />;
+      }
+
+      // Handle Normal Paragraphs
       let renderedParagraph = [trimmed];
-      
-      // Basic bold formatting support **text**
       if (trimmed.includes('**')) {
         const parts = trimmed.split('**');
         renderedParagraph = parts.map((part, idx) => {
